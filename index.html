@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
@@ -66,7 +67,7 @@
             flex: 1;
             overflow-y: auto;
             padding: 1rem;
-            max-width: 600px;
+            max-width: 800px; /* Widened slightly for side-by-side views */
             width: 100%;
             margin: 0 auto;
         }
@@ -138,15 +139,14 @@
             background: var(--success);
         }
 
-        /* --- STUDY MODE STYLES (UPDATED) --- */
+        /* Study Mode */
         .study-controls-container {
             position: sticky;
-            top: -1rem; /* Pull up slightly */
+            top: -1rem;
             background: var(--bg);
             padding-bottom: 10px;
             z-index: 5;
         }
-
         .az-filter-bar {
             display: flex;
             flex-wrap: wrap;
@@ -173,13 +173,11 @@
             color: white;
             border-color: var(--primary);
         }
-        .filter-char:active { transform: scale(0.95); }
-
         .study-list { 
             list-style: none; 
             padding: 0; 
             display: grid;
-            grid-template-columns: 1fr 1fr; /* 2 Columns */
+            grid-template-columns: 1fr 1fr;
             gap: 8px;
         }
         .study-item {
@@ -191,66 +189,60 @@
             flex-direction: column;
             border: 1px solid #eee;
         }
-        .study-word { 
-            font-weight: bold; 
-            color: var(--primary); 
-            font-size: 0.95rem; 
-            margin-bottom: 4px;
-            word-break: break-word; /* Prevent overflow */
-        }
-        .study-def { 
-            color: #555; 
-            font-size: 0.8rem; 
-            line-height: 1.2;
-        }
-        .study-pos {
-            font-size: 0.7rem;
-            color: #999;
-            font-style: italic;
-            margin-bottom: 2px;
-        }
-
-        .study-pagination {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            margin-top: 15px;
-            padding-bottom: 20px;
-        }
+        .study-word { font-weight: bold; color: var(--primary); font-size: 0.95rem; margin-bottom: 4px; word-break: break-word; }
+        .study-def { color: #555; font-size: 0.8rem; line-height: 1.2; }
+        .study-pos { font-size: 0.7rem; color: #999; font-style: italic; margin-bottom: 2px; }
+        .study-pagination { display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 15px; padding-bottom: 20px; }
         .page-info { font-size: 0.9rem; color: #666; }
 
-        /* Game Mode A: Spelling */
-        .spell-card {
+        /* Game Mode A: Spelling (Side-by-Side Layout) */
+        .spell-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .spell-row {
             background: var(--card);
-            padding: 1.5rem;
+            padding: 1rem;
             border-radius: var(--radius);
             box-shadow: var(--shadow);
-            text-align: center;
-            margin-bottom: 1rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Left: Meaning, Right: Input */
+            gap: 15px;
+            align-items: center;
         }
-        .question-text { font-size: 1.1rem; margin-bottom: 1rem; color: #444; min-height: 2.5rem; }
-        .input-group { position: relative; margin-bottom: 1rem; }
+        .spell-def-col {
+            font-size: 0.95rem;
+            color: #444;
+            line-height: 1.4;
+            text-align: right;
+            border-right: 2px solid #f0f0f0;
+            padding-right: 15px;
+        }
+        .spell-input-col {
+            position: relative;
+        }
         .spell-input {
             width: 100%;
-            padding: 10px;
-            font-size: 1.1rem;
+            padding: 8px 10px;
+            font-size: 1rem;
             border: 2px solid #ddd;
             border-radius: 8px;
-            text-align: center;
             outline: none;
+            transition: border-color 0.2s;
         }
+        .spell-input:focus { border-color: var(--primary); }
         .spell-input.correct { border-color: var(--success); background: #e8f8f5; }
         .spell-input.wrong { border-color: var(--danger); background: #fdedec; }
         
         .hint-btn {
             position: absolute;
-            right: 10px;
+            right: 8px;
             top: 50%;
             transform: translateY(-50%);
             background: #f1c40f;
-            width: 24px;
-            height: 24px;
+            width: 22px;
+            height: 22px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -261,53 +253,26 @@
             font-size: 0.8rem;
         }
 
-        .pagination {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 1rem;
-        }
+        .pagination { display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; }
 
-        /* Game Mode B: Matching *//* Updated Match Game Styles */
+        /* Game Mode B: Matching (Two Columns) */
         .match-container {
             display: flex;
-            gap: 15px; /* Space between the two columns */
+            gap: 15px;
             padding-bottom: 2rem;
         }
-
         .match-col {
-            flex: 1; /* Both columns take equal width */
+            flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 10px; /* Space between cards vertically */
-        }
-
-        .match-card {
-            background: var(--card);
-            padding: 1rem 0.5rem;
-            border-radius: var(--radius);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            text-align: center;
-            font-size: 0.9rem;
-            cursor: pointer;
-            min-height: 80px; /* Slightly taller to accommodate text */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-            border: 2px solid transparent;
-            word-break: break-word;
-            height: 100%; /* Fill available height in the flex row */
-        }
-        
-        .match-card.selected { border-color: var(--primary); background: #eaf2f8; transform: scale(0.98); }
-        .match-card.matched { opacity: 0; pointer-events: none; }
-        .match-card.error { animation: shake 0.4s; border-color: var(--danger); background: #fdedec; }
-         {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
             gap: 10px;
-            padding-bottom: 2rem;
+        }
+        .match-header {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #888;
+            margin-bottom: 5px;
+            font-weight: bold;
         }
         .match-card {
             background: var(--card);
@@ -317,16 +282,17 @@
             text-align: center;
             font-size: 0.9rem;
             cursor: pointer;
-            min-height: 70px;
+            min-height: 80px; /* Taller for text */
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.2s;
             border: 2px solid transparent;
             word-break: break-word;
+            height: 100%;
         }
         .match-card.selected { border-color: var(--primary); background: #eaf2f8; transform: scale(0.98); }
-        .match-card.matched { opacity: 0; pointer-events: none; transform: scale(0.8); transition: opacity 0.5s, transform 0.5s; }
+        .match-card.matched { opacity: 0; pointer-events: none; } /* Fade out */
         .match-card.error { animation: shake 0.4s; border-color: var(--danger); background: #fdedec; }
 
         @keyframes shake {
@@ -339,6 +305,11 @@
         .hidden { display: none !important; }
         .stats { font-size: 0.9rem; color: #666; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
         
+        @media (max-width: 500px) {
+            .study-list { grid-template-columns: 1fr; }
+            .spell-row { grid-template-columns: 1fr; gap: 8px; }
+            .spell-def-col { text-align: left; border-right: none; border-bottom: 1px solid #eee; padding-right: 0; padding-bottom: 8px; }
+        }
     </style>
 </head>
 <body>
@@ -371,8 +342,7 @@
         </div>
 
         <h3>Browse by Starting Letter</h3>
-        <div class="category-grid" id="category-grid">
-            </div>
+        <div class="category-grid" id="category-grid"></div>
     </div>
 
     <div id="view-spell" class="view">
@@ -380,10 +350,12 @@
             <span id="spell-progress">Page 1/5</span>
             <button class="btn btn-sm" onclick="goHome()">Home</button>
         </div>
-        <div id="spell-container"></div>
+        
+        <div id="spell-container" class="spell-list"></div>
+
         <div class="pagination">
             <button class="btn btn-outline" id="prev-btn" onclick="changePage(-1)">Previous</button>
-            <button class="btn btn-success" id="check-btn" onclick="checkSpelling()">Check</button>
+            <button class="btn btn-success" id="check-btn" onclick="checkSpelling()">Check Answers</button>
             <button class="btn btn-outline" id="next-btn" onclick="changePage(1)">Next</button>
         </div>
     </div>
@@ -393,59 +365,19 @@
             <span id="match-score">Pairs: 0/5</span>
             <button class="btn btn-sm" onclick="goHome()">Home</button>
         </div>
-     <div class="match-container">
-    <div id="match-col-left" class="match-col"></div>
-    <div id="match-col-right" class="match-col"></div>
-</div>
-        <button class="btn big-btn hidden" id="match-next-btn" onclick="function startMatchingRound() {
-        const roundData = currentGameData.slice(currentIndex, currentIndex + 5);
-        if (roundData.length === 0) {
-            alert("Game Over! Good job.");
-            goHome();
-            return;
-        }
-
-        currentIndex += 5;
-        matchedCount = 0;
-        document.getElementById('match-next-btn').classList.add('hidden');
-        document.getElementById('match-score').innerText = `Pairs: 0/${roundData.length}`;
-
-        // 1. Create separate lists for Words and Definitions
-        let wordCards = roundData.map(item => ({ 
-            text: item.word, 
-            pair: item.word 
-        }));
         
-        let defCards = roundData.map(item => ({ 
-            text: item.def, 
-            pair: item.word 
-        }));
+        <div class="match-container">
+            <div class="match-col">
+                <div class="match-header">WORDS</div>
+                <div id="match-col-left" class="match-col"></div>
+            </div>
+            <div class="match-col">
+                <div class="match-header">MEANINGS</div>
+                <div id="match-col-right" class="match-col"></div>
+            </div>
+        </div>
 
-        // 2. Shuffle them independently
-        // (Optional: Remove the first line below if you want words to be alphabetical)
-        wordCards.sort(() => Math.random() - 0.5); 
-        defCards.sort(() => Math.random() - 0.5);
-
-        // 3. Clear the columns
-        const leftCol = document.getElementById('match-col-left');
-        const rightCol = document.getElementById('match-col-right');
-        leftCol.innerHTML = '';
-        rightCol.innerHTML = '';
-
-        // 4. Helper function to create the card HTML
-        const createCard = (cardData) => {
-            const el = document.createElement('div');
-            el.className = 'match-card';
-            el.innerText = cardData.text;
-            el.dataset.pair = cardData.pair;
-            el.onclick = () => handleCardTap(el);
-            return el;
-        };
-
-        // 5. Render to the correct columns
-        wordCards.forEach(card => leftCol.appendChild(createCard(card)));
-        defCards.forEach(card => rightCol.appendChild(createCard(card)));
-    }">Next Round</button>
+        <button class="btn big-btn hidden" id="match-next-btn" onclick="startMatchingRound()">Next Round</button>
     </div>
 
     <div id="view-study" class="view">
@@ -456,11 +388,10 @@
             </div>
             <div class="az-filter-bar" id="az-filter-bar">
                 <div class="filter-char active" onclick="filterStudyByLetter('ALL')">ALL</div>
-                </div>
+            </div>
         </div>
 
-        <ul id="study-list" class="study-list">
-            </ul>
+        <ul id="study-list" class="study-list"></ul>
 
         <div class="study-pagination" id="study-pagination">
             <button class="btn btn-outline btn-sm" onclick="changeStudyPage(-1)">Prev</button>
@@ -471,9 +402,7 @@
 
 <script>
     // --- DATA INITIALIZATION ---
-    // Note: This string contains the raw data. 
-    // Format: word@lengthDefinition
-    // You can paste more lines from your CSV files here.
+    // PASTE YOUR FULL DATA LIST HERE
     const rawDataString = `
 a lot of@8許多，(片)
 abroad@6國外，海外，(adv)
@@ -485,427 +414,1328 @@ activity@8活動，(n)
 admit@5承認，准許…進入，准許…加入，(vt)
 adult@5成人，(n)
 affect@6影響，(v)
-aid@3幫助，援助，(n)
+aid@3幫助，援助，幫助者，有幫助的事物，(n)，資助，援助，幫助，(vt)
+AIDS@4愛滋病，(n)
+air conditioner@15空調機，(n)
 alarm@5警報，(n)
+alarm clock@11鬧鐘，(n)
 album@5相簿，(n)
 alike@5同樣的，相像的，(adj)
 aloud@5出聲地，大聲地，(adv)
 alphabet@8字母，字母表，(n)
 ambulance@9救護車，(n)
-ancient@7已往的，古代的，遠古的，(adj)
+ancient@7已往的，古代的，遠古的，舊式的，(adj)
 ankle@5踝，(n)
 ant@3螞蟻，(n)
 apologize@9道歉，認錯，(vi)
 apply@5申請，(vi)，應用，(vt)
-appreciate@10瞭解，欣賞，感激，(v)
+appreciate@10瞭解，欣賞，感激，升值，(v)
 armchair@8扶手椅，(n)
 army@4軍隊，軍，(n)
 arrange@7安排，(v)
 arrest@6逮捕，拘留，(vt)
-article@7文章，論文，(n)
+article@7文章，論文，條款，物件，[語法]冠詞，(n)
+as if@5好像，(片)
+as soon as@10儘快，(片)
+as well as@10也，不僅…而且，(片)
 Asia@4亞洲，(n)
 assume@6假定，設想，(vt)
+Australia@9澳大利亞，(n)
 avoid@5避免，(v)
+baby sitter@11褓母，(n)
 badminton@9羽毛球，(n)
 balcony@7陽臺，(n)
 barber@6理髮師，(n)
-bark@4(狗等)吠，叫，(vi)
-base@4基地，(n)
+bark@4(狗等)吠，叫，(vi)，大聲叫喊，(vt)
+base@4基地，(n)，建立在…基礎上，(vt)
 basement@8地下室，(n)
+basis@5基礎，基本，根據，主要成分(或要素)，(認識論中的)基本原則或原理，(n)
 bat@3蝙蝠，(n)
 bean@4豆，(n)
 beard@5鬍鬚，倒鉤，(n)
 beginning@9開始，起源，(n)
-behave@6行為，表現，(vt)
-beyond@6在…那邊，遠於，(prep)
-biology@7生物學，(n)
+behave@6行為，表現，舉止，(vt)，(機器等)運轉，(vi)
+being@5be 的現在分詞，(v)，存在，生存，(n)
+beyond@6在…那邊，遠於，超出，超過，(prep)，在遠處，(adv)
+bicycle riding@14騎腳踏車，(n)
+biology@7生物學，生物(總稱)，(n)
 bit@3一點，一些，(n)
-bitter@6痛苦的，有苦味的，(adj)
-blame@5責備，責怪，(vt)
+bitter@6痛苦的，有苦味的，寒冷入骨的，(adj)
+blame@5責備，責怪，把…歸咎於，(vt)，(過錯，事故等的)責任，責怪，責備，(n)
 blank@5空的，空白的，(adj)
 blouse@6女式襯衫，(n)
-board@5(木)板，董事會，(n)
+board@5(木)板，董事會，(n)，上(車，船或飛機)，(vt)
 bomb@4炸彈，(n)
 bookcase@8書櫥，(n)
-bother@6打擾，麻煩，(v)
+both xxx and@12兩個都…，既…又…
+bother@6打擾，麻煩，(v)，麻煩，打擾，(n)
 bowling@7保齡球，(n)
+boyfriend@9男朋友，(n)
 brick@5磚，積木，(n)
 Britain@7英國，(n)
 brunch@6早午餐，(n)
-buffet@6自助餐廳，(n)
+buffet@6自助餐廳，(n)，打擊，毆打，(v)
 bug@3蟲，軟體錯誤，(n)
 building@8建築物，大樓，(n)
 bun@3小圓麵包，(n)
-bundle@6包，捆，束，(n)
+bundle@6包，捆，束，(n)，包紮，捆，(v)
 burger@6(口)漢堡，(n)
-burst@5爆裂，(v)
+burst@5爆裂，(v)，爆炸，爆裂，(n)
+bus stop@8公共汽車站，(n)
 butterfly@9蝴蝶，(n)
 cabbage@7甘藍菜，捲心菜，(n)
-cabinet@7(有抽屜或格子的)櫥櫃，(n)
-cable@5粗索，電纜，(n)
+cabinet@7(有抽屜或格子的)櫥櫃，(美)內閣，(n)，(美)內閣的，小巧的，(adj)
+cable@5粗索，電纜，錨鏈，(n)
 cafeteria@9自助餐廳，(n)
 calendar@8月曆，行事曆，(n)
 camping@7露營，(n)
 campus@6校園，園區，(n)
+Canada@6加拿大，(n)
+Canadian@8加拿大人，(n)
 cancel@6取消，(v)
 cancer@6癌，(n)
 careless@8不注意的，粗心大意的，(adj)
 cash@4現金，(n)
-cassette@8(裝錄音帶的)卡式盒，(n)
+cassette@8(裝錄音帶的)卡式盒(匣)，(n)
+CD@2光碟(Compact Disk 縮寫)，(n)，雷射唱片，(n)
+CD player@9雷射唱片播放器，(n)
+centimeter@10釐米，公分，(n)
 century@7世紀，百年，(n)
-cereal@6穀物，麥片，(n)
+cereal@6穀物，穀類食品(麥片等)，(n)
 certain@7確定的，肯定的，(adj)
-channel@7海峽，頻道，(n)
-character@9性格，特性，人物，(n)
-charge@6索價，控告，充電，(vt)
-chase@5追趕，驅逐，(v)
+channel@7海峽，水渠，水道，通訊頻道，(n)
+character@9性格，特性，特質，品格，人物，(n)
+charge@6索價，控告，充電，(vt)，費用，指控，充電，(n)
+chase@5追趕，驅逐，追求，追捕，(v)
+cheerleader@11啦啦隊隊長，(n)
 chemical@8化學的，(adj)
 chess@5西洋棋，(n)
 childhood@9孩童時期，(n)
-chin@4下巴，(n)
+childish@8孩子氣的，幼稚的，傻氣的，(adj)
+childlike@9孩子似的，天真無邪的，(adj)
+chin@4下巴，下頷，(n)
+Chinese New Year@16農曆新年，(n)
 choice@6選擇，抉擇，(n)
 chubby@6胖嘟嘟的，圓胖的，(adj)
-claim@5聲稱，主張，(vt)
-clap@4拍手，拍，(v)
-classical@9古典的，(adj)
-climate@7氣候，(n)
+claim@5聲稱，主張，要求，(vt)，要求，主張，斷言，(n)
+clap@4拍手，拍，輕敲，(v)
+class leader@12班長，(n)
+classical@9古典的，模範的，傳統的，(adj)
+climate@7氣候，風土，潮流，(n)
+climbing@8攀登，登山，(n)
 closet@6壁櫥，小櫥，(n)
-coach@5長途汽車，教練，(n)
+coach@5長途公共汽車，車廂，教練，(n)，訓練，指導，(vt)
 cockroach@9蟑螂，(n)
-command@7命令，指揮，(vt)
-comment@7註釋，評論，(n)
+command@7命令，指揮，(vt)，命令，控制，(n)
+comment@7註釋，註解，說明，(n)，評論，(v)
 complain@8抱怨，(v)
+computer game@13電腦遊戲，(n)
 confident@9自信的，(adj)
 confuse@7使混亂，(vt)
-contract@8合同，契約，(n)
-court@5庭院，法庭，(n)
-crab@4蟹，(n)
+contact lens@12隱形眼鏡，(n)
+contract@8合同，契約，(n)，訂合同，縮小，(vi)
+convenience store@17便利商店，(n)
+cooking@7烹調，(n)，烹調用的，(adj)
+court@5庭院，場地，法庭，法院，(n)
+crab@4蟹，挑剔者，(n)
 create@6創造，創作，(v)
-crime@5犯罪，罪行，(n)
-crowded@7擁擠的，(adj)
-culture@7文化，(n)
+credit card@11信用卡，(n)
+crime@5犯罪，罪行，罪惡，(n)
+crowded@7擁擠的，客滿的，(adj)
+culture@7文化，教養，修養，(n)
 curve@5曲線，(n)
 custom@6風俗習慣，(n)
-damage@6毀壞，損害，(vt)
+damage@6毀壞，損害，(vt)，毀壞，(複)賠償金，(n)
 debate@6辯論，爭論，(n)
-decorate@8裝飾，(vt)
-deliver@7投遞，發表，(vt)
+decorate@8裝飾，裝璜，(vt)
+deliver@7投遞，發表，分娩，(vt)
 dessert@7甜點，(n)
+determine@9決定，決心，(vt)
+direct@6直接的，(adj)，指示，導演，管理，(vt)
+director@8指導者，主任，董事，導演，(n)
+doubt@5懷疑，(n)
+downstairs@10樓下(的)，(n)
+drum@4鼓，(n)
+dumb@4啞的，(adj)
+dumpling@8餃子，(n)
+duty@4職責，責任，義務;(複)關稅，(n)
+either xxx or@13或者…或者…
+employ@6雇用，使用，(vt)
+entire@6全部的，整個的，(adj)
+environment@11環境，周圍狀況，(n)
+European@8歐洲的，(adj)，歐洲人，(n)
+even if@7即使，縱然，(片)
+examine@7檢查，調查，考試，(v)
+express@7表示，表達，(vt)，快車，快遞，(n)
+fellow@6人，人員，研究員，[口語]傢伙，小夥子，(n)，同伴的，(adj)
+field@5田地，田野，領域，範圍，(n)
+fit@3適合，合身，(vt)，適合，符合，(vi)
+flat@4平的，平坦的，(adj)，公寓，(n)
+flute@5笛，長笛，(n)
+focus@5(使)聚焦，使(集中)，(v)，焦點，(注意，活動，興趣等的)中心，(n)
+fog@3霧，(n)，霧，(v)
+foggy@5多霧的，(adj)
+former@6在前的，以前的，(adj)，前者，(n)
+France@6法國，(n)
+French fries@12炸薯條，(n)
+frog@4青蛙，(n)
+furniture@9傢俱，(n)
+gain@4獲得，增加，(vt)，受益，增加，(vi)
+general@7一般的，通用的，(adj)，將軍，(n)
+generous@8慷慨的，大方的，寬厚的，(adj)
+geography@9地理(學)，(n)
+Germany@7德國，(n)
+get off@7下車，從…下來，(片)
+get on@6上車，(片)
+glue@4膠水，(n)
+goose@5鵝，(n)
+granddaughter@13孫女，外孫女，(n)
+grandson@8孫子，外孫，(n)
+grape@5葡萄，(n)
+greedy@6貪食的，貪婪的，貪心的，(adj)
+guitar@6吉他，(n)
+gym@3體操房，(n)
+handle@6柄，把手，(n)，拿，操作，處理，(vt)
+hanger@6掛衣架，(n)
+helicopter@10直升飛機，(n)
+highway@7公路，(n)
+hippo@5河馬，(n)
+hole@4洞，孔，眼，(n)
+horrible@8恐怖的，(adj)
+housewife@9家庭婦女，(n)
+humble@6謙遜的，謙恭的，地位低下的，卑賤的，(adj)
+imagine@7料想，設想，想像，(vt)
+in front of@11在…的前面，(片)
+influence@9影響，感化力，(adj)，影響，(vt)
+information@11消息，情報，資訊，(n)
+insect@6昆蟲，(n)
+inspire@7鼓舞，激起，給…靈感，(vt)
+instant@7瞬間，時刻，(n)，立即的，即刻的，緊急的，(adj)
+interrupt@9打斷，打擾，中止，(vt)
+interview@9接見，面試，(n)，接見，會見，(vt)
+Italy@5義大利，(n)
+jam@3果醬，堵塞，(n)，堵塞，卡住，(v)
+Japan@5日本，(n)
+jealous@7妒忌的，羡慕的，猜忌的，(adj)
+jeep@4吉普車，(n)
+judge@5法官，審判者，(n)，評定，斷定，判斷，審判，(vt)
+kangaroo@8袋鼠，(n)
+Korea@5韓國，朝鮮，(n)
+lawyer@6律師，(n)
+level@5水平，等級，水平面，(n)
+lightning@9閃電，(n)
+limit@5限度，限制，(複)範圍，(n)，限定，限制，(vt)
+male@4雄的，(n)
+manner@6禮貌，(n)
+marriage@8結婚，婚姻，(n)
+mask@4面具，面罩，口罩，(n)，面具遮住，遮蓋，(vt)
+mat@3席子，(n)
+match@5火柴，比賽，(n)
+maximum@7最大限度，最大量，(n)，最高的，最大的，(adj)
+metal@5金屬的，(adj)
+meter@5米，公尺，(n)
+middle@6中間，中部，(n)，中間的，中央的，(adj)
+minor@5較小的，較少的，較次要的，(adj)
+minus@5減，(prep)
+mosquito@8蚊子，(n)
+mud@3泥，(n)
+naughty@7調皮的，(adj)
+needle@6針，(n)
+negative@8負的，負面的，(adj)，底片，(n)
+neighbor@8鄰居，(n)
+neither xxx nor@15既不…也不…，(片)
+nephew@6侄子，外甥，(n)
+next to@7緊挨著，(片)
+niece@5侄女，外甥女，(n)
+not only xxx but also@21不僅…而且…
+note@4便條，筆記，註解，票據，(n)，記錄，留意，(vt)
+object@6物體，實物，目的，目標，物件，(n)，反對，不贊成，(vi)
+occur@5發生，出現，浮現，(vi)
+offer@5給予，提供，提出，(vt)，提供物，提議，(n)
+omit@4省略，刪節，遺漏，(vt)
+operate@7運行，運轉，手術，(vi)，操作，操縱，進行，(vt)
+out of@6出於…，向…外，(片)
+pajamas@7睡衣，(n)
+panda@5熊貓，(n)
+partner@7搭檔，夥伴，(n)
+pause@5暫停，中止，(vi)
+pencil box@10鉛筆盒，(n)
+pepper@6胡椒粉，(n)
+photograph@10照片，(n)
+pigeon@6鴿子，(n)
+pillow@6枕頭，(n)
+plastic@7塑膠的，(adj)
+platform@8月臺，(n)
+pleased@7滿意的，(adj)
+plus@4加，(prep)
+policeman@9警察，(n)
+pollution@9污染，(n)
+potato@6馬鈴薯，(n)
+prefer@6更喜歡，寧願，(vt)
+press@5壓，按，壓迫，壓榨，逼迫，(vt)，壓，按，報刊，出版社，新聞界，(n)
+primary school@14小學，(n)
+principal@9校長，(n)
+professor@9教授，(n)
+provide@7供給，提供，(vt)
+purse@5錢包，(n)
+puzzle@6(使)迷惑，(使)為難，(v)，智力問題，智力遊戲，難題，令人費解的事，(n)
+quit@4停止，放棄，辭(職)，(v)
+quiz@4測驗，(n)
+railroad@8鐵路，(n)
+raise@5舉起，提高，提升，增加，籌集，引起，飼養，提出，(vt)
+rapid@5快的，迅速的，(adj)
+receive@7接見，接收，(v)
+rectangle@9長方形，(n)
+regard@6看待，把…視為，(vt)，[複]敬意，問候，(n)
+regular@7有規律的，有規則的，定期的，(adj)
+reject@6拒絕，駁回，捨棄，(vt)
+relative@8相對的，(adj)，親戚，(n)
+rent@4租金，(n)，租用，(vt)，出租，(vi)
+result@6結果，成果，成績，(n)，導致，結果是(in)，起因於(from)，(vi)
+return@6返回，歸來，(複)受益，(n)，歸還，送還，回報，(vt)
+rock@4岩石，石塊，搖滾(音樂)，(n)，搖(動)，(vt)
+roof@4屋頂，(n)
+root@4根(部)，(n)
+row@3(一)排，行，列，(n)，划船，(v)
+sailor@6水手，(n)
+salesman@8銷售員，(n)
+sample@6樣品，標本，(n)，從…抽樣，(vt)
+saucer@6碟子，(n)
+scarf@5圍巾，(n)
+scientist@9科學家，(n)
+score@5得分，分數，二十，(n)，得分，記分，(vt)
+screen@6螢幕，屏風，簾，(n)，掩蔽，遮蔽，(vt)
+seek@4尋找，追求，(v)
+servant@7僕人，(n)
+serve@5為…服務/盡責，招待，符合，(v)，服務，供職，服役，起作用(as)，(vi)
+shake@5握手，(v)
+shark@5鯊魚，(n)
+sharp@5鋒利的，銳利的，鮮明的，急劇的，(adj)
+shorts@6短褲，(n)
+sign@4標記，符號，招牌，徵兆，現象，(n)，簽(名)，簽署，(v)
+silver@6銀色的，(adj)，銀色，(n)
+similar@7相似的，類似的(to)，(adj)
+simply@6簡單地，僅僅，只不過，(adv)
+Singapore@9新加坡，(n)
+snowy@5下雪的，(adj)
+social@6社交的，社會的，(adj)
+soda@4汽水，(n)
+soft@4軟的，溫柔的，不含酒精的，(adj)
+sort@4種類，類別，(n)，分類，整理，(vt)
+soul@4靈魂，心靈，(n)
+sour@4酸的，(adj)
+southern@8南方的，南部的，(adj)
+speed@5速度，迅速，(n)，迅速前進，加速，加快，(vi)
+stairs@6樓梯，(n)
+state@5狀態，情況，國家，州，(n)
+stone@5石頭，寶石，(n)
+strike@6打，襲擊，使突然想到，給…留下印象，(vt)，罷工，(鐘等)敲響，(vi)
+submarine@9潛艇，(n)
+subway@6地鐵，(n)
+succeed@7成功，接著發生，繼承，(vi)，接替，接…之後，(vt)
+suggest@7建議，提議，暗示，表明，(vt)
+suit@4合適，適合，中…的意，(vt)，一套衣服(或西服)，起訴，訴訟，(n)
+survive@7活下來，倖存，(vi)，從…中逃出，從(因環境中)挺過來，(vt)
+swallow@7吞咽，(v)，燕子，(n)
+symbol@6象徵，符號，標誌，(n)
+through@7穿過，通過，以，用，憑藉，經由，從頭到尾，(prep)，從頭到尾，徹底，(adv)
+throw@5扔，(v)
+thunder@7雷，(n)，打雷，(v)
+top@3頂(端)，上部，(n)，最高的，(adj)
+total@5總計，(v)
+tour@4旅行，遊歷，(n)，旅行，遊歷，(v)
+trace@5追蹤，跟蹤，(vt)，痕跡，蹤跡，(n)
+traffic jam@11交通阻塞，(n)
+traffic lights@14紅綠燈，交通燈，(n)
+treat@5對待，處理，醫療，醫治，款待，招待，(vt)，款待，請客，(n)
+triangle@8三角板，(n)
+trumpet@7喇叭，號，(n)
+T-shirt@7T恤，(n)
+turkey@6火雞，(n)
+twice@5兩倍，兩次，(adv)
+unique@6唯一的，獨特的，獨一無二的，(adj)
+universe@8宇宙，(n)
+value@5價值，價格，重要性，(複)價值觀，(n)，尊重，重視，評價，(vt)
+vest@4背心，(n)
+village@7村莊，鄉村，(n)
+vinegar@7醋，(n)
+violin@6小提琴，(n)
+washing machine@15洗衣機，(n)
+waterfall@9瀑布，(n)
+whale@5鯨魚，(n)
+wine@4(葡萄)酒，(n)
+wolf@4狼，(n)
+wound@5創傷，傷口，(n)，使受傷，傷害，(vt)
+ma'am@5(對女主人，女教師等的稱呼)太太，小姐，(n)
+Teacher's Day@13教師節，(n)
+women's room@12女廁所，(n)
 ability@7能力，才幹，(n)
-add@3添加，(vt)
+add@3(添)加，進一步說(或寫)，(vt)，增添，(vi)
 adjective@9形容詞的，(adj)
 admire@6欽佩，讚賞，(vt)
 adopt@5收養，採取，(vt)
-advance@7前進，(n)
-advantage@9優勢，利益，(n)
+advance@7前進，向前移動，(vi)，前進，進展，(n)
+advantage@9優勢，有利條件，利益，(n)
 adverb@6副詞，(n)
-aircraft@8飛行器，(n)
-alley@5弄，小巷，(n)
-angel@5天使，(n)
+aircraft@8飛行器，航行器，(n)
+airmail@7航空信，(n)
+alley@5弄，小巷，胡同，(n)
+angel@5天使，完善可愛的人，(n)
 anyway@6無論如何，(adv)
-appearance@10外貌，外觀，(n)
+appearance@10出現，露面，外貌，外觀，(n)
+Asian@5亞洲(人)的，(adj)，亞洲人，(n)
 attend@6出席，(v)
-attention@9注意，(n)
-auxiliary@9輔助的，(adj)
-available@9可利用的，(adj)
-backward@8向後地，(adv)
+attention@9注意，留心，(n)
+auxiliary@9輔助的，協助的，(adj)，輔助物，援軍，(n)
+available@9可利用的，可獲取得的，(adj)
+backward@8向後地(的)，相反地(的)，追溯，退步，由好變壞，(adv)，向後地(的)，相反地(的)，追溯，退步，由好變壞，(adj)
 balloon@7氣球，(n)
-bar@3條，棒，酒吧，(n)
-basic@5基本的，(adj)
+bar@3條，棒(常用作柵欄，扣栓物)，橫木，酒吧間，柵，障礙物，(n)，禁止，阻擋，妨礙，把門關住，除…之外，(Bar)律師業，(vt)
+basic@5基本的，基礎的，(adj)
 beautifully@11美麗地，(adv)
-besides@7在…旁邊，(prep)
-best@4最好的，(adj)
-blood@5血，(n)
-button@6鈕扣，(n)
+besides@7在…旁邊，在…附近，(prep)
+best@4最好的，(adj)，最好地，(adv)
+blood@5血(液)，血統，(n)
+button@6鈕扣，按扭，(n)，扣上，扣緊，(vt)
 carefully@9小心地，(adv)
-cartoon@7卡通，漫畫，(n)
-cause@5原因，(n)
-cell@4細胞，電池，(n)
-certainly@9的確，一定，(adv)
-chairman@8主席，(n)
-citizen@7公民，市民，(n)
-coast@5海岸，(n)
+cartoon@7(報刊上的)政治性漫畫，諷刺畫，卡通畫，漫畫(常有解說詞)，(n)，卡通片，動畫片，(n)
+cause@5原因，起因，事業，(n)，使…產生，引起，(vt)
+cell@4單元，細胞，蜂房，(尤指監獄或寺院的)單人房間，電池，(n)
+certainly@9的確，一定，當然可以，(adv)
+chairman@8主席，議長，董事長，(n)
+children@8一個以上的孩童，child 的複數，(n)
+Christmas Eve@13聖誕前夕，(n)
+citizen@7公民，市民，居民，(n)
+coast@5海岸，海濱，(n)
 comfortably@11舒適地，(adv)
-cookies@7餅乾，(n)
-daily@5每日的，(adj)
+connective@10連結的，連接的，(adj)，連結詞，(n)
+cookies@7餅乾，小甜點，(n)
+culture center@14文化中心，(n)
+daily@5每日的，(adj)，每日，天天，(adv)
 dancing@7跳舞，(n)
-dawn@4黎明，(n)
-deal@4交易，處理，(vi)
+dawn@4黎明，開始，(n)，破曉，開始發展，(vi)
+deal@4給予，分配，(vt)，交易，處理(with)，(vi)(pt:dealt，pp:dealt)
 delay@5推遲，耽擱，(n)
 dentist@7牙醫，(n)
-department@10部門，(n)
-detect@6發覺，識破，(v)
-dial@4撥號盤，(n)
-diligent@8勤奮的，(adj)
-disappear@9消失，(v)
+department@10部門，部，院，局，處，(n)
+detect@6發覺，識破，查出，(v)
+determiner@10(文法的)限定詞，(n)
+dial@4(電話的)撥號盤，刻度盤，(n)
+diligent@8勤奮的，煞費苦心的，(adj)
+disappear@9消失，看不見，失蹤，(v)
 discuss@7討論，(v)
-dishonest@9不誠實的，(adj)
-divide@6劃分，除，(vt)
-dizzy@5暈眩的，(adj)
+dishonest@9不誠實的，不正直的，(adj)
+divide@6分，劃分(into)，隔開，除(by)，(vt)
+dizzy@5暈眩的，眼花撩亂的，(adj)
+dodge ball@10躲避球，(n)
 dolphin@7海豚，(n)
-donkey@6驢子，(n)
+donkey@6驢子，傻瓜，(n)
 dot@3點，(n)
+Double Tenth Day@16雙十節，(n)
 doughnut@8甜甜圈，(n)
 dragon@6龍，(n)
-drama@5戲劇，(n)
-drawer@6抽屜，(n)
-dresser@7碗櫃，(n)
+Dragon-boat Festival@20端午節，(n)
+drama@5戲劇，劇本，(n)
+drawer@6付款人，製圖者，(n)
+dresser@7碗櫃，餐具櫥，服裝師，(n)
 drinks@6飲料，(n)
 drugstore@9藥局，(n)
 dryer@5烘乾機，(n)
-earrings@8耳環，(n)
-edge@4邊緣，(n)
-effect@6效果，作用，(n)
-effort@6努力，(n)
-elect@5選舉，(v)
-emotion@7情感，情緒，(n)
+earrings@8耳環，耳飾，耳墜，(n)
+Easter@6(基督)復活節，(n)
+eastern@7東方的，東部的，(adj)
+edge@4邊，邊緣，棱，(n)
+effect@6結果，效果，作用，(n)，引起，招致，(vt)
+effort@6努力，艱難的嘗試，(n)
+eighteenth@10第十八，十八分之一，(n)
+elect@5選舉，選擇，決定，(v)
+emotion@7情感，情緒，感情，(n)
 emphasize@9強調，(v)
-encourage@9鼓勵，(vt)
+encourage@9鼓勵，支援，(vt)
 engine@6引擎，(n)
-equal@5相等的，(adj)
-error@5錯誤，(n)
-evil@4邪惡的，(adj)
-exact@5精確的，(adj)
+England@7英格蘭，英國，(n)
+Englishman@10英格蘭人，英國人，(n)
+equal@5相等的，同樣的，平等的，(adj)，等於，(vt)
+error@5錯誤，誤差，(n)
+Europe@6歐洲，(n)
+evil@4壞的，邪惡的，(adj)
+exact@5精確的，確切的，(adj)
+exercising@10運動，體操，(n)
+expensive fruit@15高級水果，昂貴的水果，(n)
+extra large@11特大號的，(adj)
 eyebrow@7眉毛，(n)
 far@3遠，(adj)
-faucet@6水龍頭，(n)
-favor@5好感，恩惠，(n)
+fast food@9速食，(n)
+fast food restaurant@20速食餐廳，(n)
+faucet@6(容器或水管的)龍頭，(n)
+favor@5好感，喜愛，贊同，支援，恩惠，好事，(n)，贊同，偏愛，(vt)
 feeling@7感覺，(n)
-figure@6數字，體形，(n)
-firm@4公司，(n)
-flag@4旗幟，(n)
-flight@6飛行，航班，(n)
+fifteenth@9第十五，十五分之一，(n)
+figure@6數字，外形，輪廓，人物，體形，身材，插圖，(n)
+fire station@12消防站，(n)
+firm@4商行，公司，(n)，結實的，堅固的，(adj)
+fishing@7釣魚，(n)
+flag@4旗(幟)，(n)
+flashlight@10手電筒，閃光，閃光信號燈，(n)
+flat tire@9洩了氣的輪胎，(n)
+flight@6飛翔，飛行，航班，(n)
 flour@5麵粉，(n)
-flow@4流動，(vi)
-flu@3流感，(n)
+flow@4流(動)，垂，飄浮，(vi)，流，流量，(n)
+flower shop@11花店，(n)
+flu@3流行性感冒(等於influenza)，(n)
 forgive@7原諒，(v)
-frank@5率直的，(adj)
+fourteenth@10第十四，十四分之一，(n)
+frank@5率直的，坦白的，(adj)
 freedom@7自由，(n)
-freezer@7冰箱，(n)
-freezing@8結冰的，(adj)
-gesture@7手勢，(n)
+freezer@7冷凍裝置，電冰箱，製冰機，(n)
+freezing@8結冰的，極冷的，(adj)
+fried chicken@13炸雞，(n)
+fried rice@10炒飯，(n)
+Frisbee@7飛盤，(n)
+gas station@11加油站，(n)
+generation@10代，輩，產生，發生，(n)
+gesture@7(表達情意的)姿勢，手勢，(n)
 ghost@5鬼，(n)
 glasses@7眼鏡，(n)
 golf@4高爾夫，(n)
-goodness@8善良，(n)
+goodness@8善良，仁慈，親切，(n)
+grow up@7長大，(片)
 guava@5蕃石榴，(n)
-guy@3傢伙，(n)
-hammer@6槌，(n)
-hanger@6衣架，(n)
-heater@6暖爐，(n)
-hiking@6徒步旅行，(n)
+guy@3男人，傢伙，人，(n)
+hairdresser@11美髮師，(n)
+Halloween@9萬聖節前夕(10月31日)，(n)
+hammer@6槌，榔頭，槌狀物，(n)
+hang@4懸掛，吊，(v)(pt&pp:hung)，吊死，絞死，(v)(pt&pp: hanged)
+heater@6加熱器，暖爐，(n)
+hey@3嘿，喂，(interj)
+hiking@6步行，遠足，徒步旅行，(n)
 hip@3臀部，(n)
-homesick@8想家的，(adj)
-honesty@7誠實，(n)
-honey@5蜂蜜，(n)
-host@4主人，(n)
-huge@4巨大的，(adj)
-humid@5潮濕的，(adj)
-humor@5幽默，(n)
-hunt@4狩獵，(v)
-hunter@6獵人，(n)
-impolite@8無禮的，(adj)
-income@6收入，(n)
-increase@8增加，(v)
-independent@11獨立的，(adj)
-insist@6堅持，(v)
-instrument@10儀器，樂器，(n)
-intelligent@11聰明的，(adj)
-invent@6發明，(v)
+homesick@8想家的，害思鄉病的，(adj)
+honesty@7正直，誠實，老實，(n)
+honey@5蜂蜜，花蜜，親愛的，(n)
+Hong Kong@9香港，(n)
+hop@3單腳跳，雙腳跳躍，(v)
+host@4(款待客人的)主人，東道主，(n)
+huge@4巨大的，龐大的，(adj)
+humid@5有濕氣的，(adj)
+humor@5幽默，詼諧，(n)
+humorous@8幽默的，詼諧的，(adj)
+hunt@4狩獵，獵取，追獵，(v)
+hunter@6獵人，打獵者，(n)
+impolite@8無禮的，沒規矩的，(adj)
+income@6收入，收益，所得，(n)
+increase@8(使…)增加，增長，(v)，增加，增長，(n)
+independent@11獨立的，自主的，自食其力的，(adj)
+insist@6(on， upon)堅持，堅決主張，堅決要求，(vi)，堅持，堅決主張，堅決認為，(vt)
+instant noodle@14速食麵，泡麵，方便麵，(n)
+instrument@10器械，器具，儀器，樂器，(n)
+intelligent@11有智力的，有理解力的，(adj)
+invent@6發明，創造，(v)
 invitation@10邀請，(n)
-jazz@4爵士樂，(n)
+jazz@4爵士樂，爵士舞，(n)
 jogging@7慢跑，(n)
+journalist@10新聞工作者，記者，(n)
+Kaohsiung@9高雄，(n)
 ketchup@7蕃茄醬，(n)
+kilometer@9公里，千米，(n)
+kindergarten@12幼稚園，(n)
 kingdom@7王國，(n)
-kitten@6小貓，(n)
-accept@6接受，(vt)
-across@6橫過，(prep)
-act@3行動，(vi)
-active@6活躍的，(adj)
+kitten@6小貓，頑皮的女孩，(n)
+kitty@5(兒語)小貓，(n)
+koala@5無尾熊，(n)
+Korean@6韓國(人，語)的，朝鮮(人，語)的，(adj， n)
+KTV@3卡拉OK電視節目，(n)
+lack@4缺乏，不足，(n)
+lady@4淑女，貴婦，夫人，小姐，(n)
+lamb@4小羊(肉)，羔羊(肉)，(n)
+Lantern Festival@16元宵節，(n)
+lay@3放，置，產(卵)，打倒，(v)
+LD@2雷射光碟，(n)
+leaf@4葉子，(書刊的)張，頁，(n)，(複:leaves)
+length@6長度，距離，一段，一節，(n)
+lettuce@7萵苣，(n)
+lid@3蓋子，眼臉，(n)
+link@4(鏈)環，連結，連接，(n)，連結，連接，(v)
+liquid@6液體的，流動性的，(adj)
+loaf@4一條(塊)麵包，麵包形食物，(n)
+local@5本地的，局部的，(adj)
+locker@6(有鎖的)小櫥櫃，(n)
+London@6倫敦，(n)
+loser@5損失者，失敗者，前科犯，(n)
+loss@4遺失，喪失，損失，虧損，(n)
+lychee@6荔枝，(n)
+magician@8魔法師，術士，魔術師，(n)
+major@5較大的，主要的，(adj)，專業，(n)
+mall@4散步式商店街，林蔭路，步行街道，(n)
+Mandarin@8標準中國話，(n)
+mango@5芒果，(n)
+marker@6作記號的人，打分數的人，(n)
+master@6主人，雇主，大師，能手，[M-]碩士，(n)，精通，(vt)
+material@8材料，原料，(n)，物質的，實體的，(adj)
+measure@7量，測量，(vt)，有…長(或寬，高等)，(vi)
+mechanic@8機械工，技工，(n)
+men's room@10男廁，(n)
+microwave@9微波，(n)
+Mid-Autumn Festival@19中秋節，(n)
+milk shake@10奶昔，(n)
+mirror@6鏡子，(n)
+missing@7失去的，不見了的，(adj)
+monster@7怪物，妖怪，(n)
+moon cake@9月餅，(n)
+Mother's Day@12母親節，(n)
+motion@6運動，活動，轉動，(n)
+mountain-climbing@17登山，爬山，(n)
+movie star@10電影明星，(n)
+movie theater@13電影院，(n)
+MRT@3大眾捷運系統 Mass Rapid Transit，(n)
+MTV@3音樂電視 Music TV，(n)
+musician@8音樂家，(n)
+napkin@6餐巾，尿布，衛生棉，(n)
+necklace@8項圈，項鍊，(n)
+nest@4巢，窩，穴，窟，(n)
+New Year's Day@14新年元旦，(n)
+New York@8紐約，(n)
+nineteenth@10第十九，十九分之一，(n)
+northern@8北方的，北部的，(adj)
+official@8官方的，正式的，(adj)，官員，行政人員，(n)
+oh-oh@5哦哦，(interj)
+onion@5洋蔥，(n)
+oops@4噢！(等於whoops)，(interj)
+outer space@11外太空，星際空間，(n)
+oven@4烤爐，烤箱，(n)
+overpass@8陸橋，高架道路，立體交叉道路，(n)，超越，越過，漏看，(v)
+overseas@8(在)海外的;(在)國外的，(adj)，在(或向)海外;在(或向)國外，(adv)
+over-weight@11超重，(n)
+owner@5所有人，物主，(n)
+ox@2公牛，牛，(n)
+painful@7疼痛的，辛苦的，(adj)
+painter@7畫家，油漆匠，(n)
+papaya@6木瓜樹，木瓜，(n)
+Paris@5巴黎，(n)
+parking lot@11停車場，(n)
+parrot@6鸚鵡，(n)
+particular@10特定的，某一的，挑剔的，特別的，(adj)
+paste@5糊狀物，麵團，(n)
+peach@5桃子，桃色，(n)
+pencil case@11鉛筆盒，(n)
+Philippines@11菲律賓，(n)
+pineapple@9鳳梨，(n)
+poison@6毒，(n)
+police officer@14警官，(n)
+police station@14警察局，(n)
+pollute@7弄髒，污染，(v)
+pond@4池塘，(n)
+pop music@9流行音樂，(n)
+positive@8確信的，正面的，積極的，(adj)
+post@4張貼，公告，(n)，支柱，標桿，職位，(vt)
+pray@4請求，懇求，祈求，(v)
+priest@6僧侶，牧師，神職者，(n)
+primary@7第一的，主要的，(adj)
+prince@6王子，皇太子，親王，(n)
+princess@8公主，王妃，親王夫人，(n)
+prison@6監獄，(n)
+private@7私人的，個人的，(adj)
+prize@5獎(賞)，獎品，獎金，(n)，珍視，珍惜，(vt)
+project@7專案，項目，(n)
+prove@5證明，證實，(vt)，結果是，果然是，(vi)
+pump@4抽水機，幫浦，(n)
+pumpkin@7南瓜，(n)
+puppy@5小狗，(n)
+quality@7品質，特徵，(n)
+race@4比賽，種族，(n)，全速前進，賽跑，(v)
+rare@4稀有的，三分熟的，(adj)
+rat@3鼠，叛徒，(n)
+reach@5到達，伸出，(vt)，達到，延伸，伸出手，(vi)
+reading@7閱讀，朗讀，(n)
+realize@7實現，實行，認清，認識，(v)
+recent@6新近的，近來的，(adj)
+recover@7重新獲得，恢復，(v)
+report@6報告(書)，(n)
+responsible@11有責任的，應負責任的，(adj)
+revise@6修訂，校訂，修正，(v)
+rise@4起立，起身，起床，(v)
+rob@3搶劫，剝奪，(v)
+robot@5機器人，(n)
+role@4角色，作用，任務，(n)
+roll@4(使…)滾動，轉動，碾，軋，卷，繞，(v)，(一)卷，麵包卷，(n)
+roller skating@14輪式溜冰，(n)
+rope@4繩，索，(n)
+rub@3摩擦，擦拭，(v)
+rubber band@11橡皮筋，(n)
+rude@4無禮的，野蠻的，(adj)
+running@7奔跑的，流動的，(adj)
+running nose@12流鼻水，(n)
+Russia@6俄羅斯，(n)
+sailing@7航行，出航，(n)
+scared@6驚嚇的，受驚的，恐懼的，(adj)
+scene@5(戲劇等的)一場，鏡頭，地點，背景，景色，舞臺，(n)
+schoolmate@10校友，(n)
+seafood@7海鮮，(n)
+secondary@9第二的，次等的，(adj)
+section@7切斷，斷片，組件，區域，(n)
+seed@4種子，(n)
+seesaw@6蹺蹺板，(n)
+select@6挑選，選擇，(v)
+selfish@7自私的，自利的，(adj)
+semester@8學期，半學年，(n)
+sense@5感言，官能，感覺，意義，判斷力，(n)，覺得，意識到，(vt)
+separate@8分離的，分開的，(adj)，(使…)分開，分離，(v)
+set@3(一)套，副，(n)，放，安置，樹立，規定，使…開始，(vt)
+seventeenth@11第十七，十七分之一，(n)
+shelf@5棚，架，(n)
+shine@5照耀，發光，發亮，閃耀，(v)
+shock@5震動，震驚，休克，(n)，(使)震動，(使)震驚，(v)
+shoes@5鞋，(n)
+shoot@5嫩枝，苗，(n)
+shopping@8購物，(n)
+shot@4(shoot的過去式個過去分詞)，(v)，開槍，射擊，射門，投籃，(n)
+shrimp@6小蝦，矮個子，無名小卒，(n)
+sight@5視力，視覺，望見，情景，(複)風景，(n)
+sincere@7真誠的，誠摯的，衷心的，(adj)
+singing@7(歌)唱，歌聲，(n)
+sink@4沉，沉沒，下陷，(v)
+sixteenth@9第十六，十六分之一，(n)
+skating@7滑冰，溜冰，(n)
+skiing@6滑雪(運動)，滑雪技術，(n)
+skinny@6皮的，皮質的，骨瘦如材的，(adj)
+slender@7細長的，修長的，苗條的，(adj)
+slide@5滑行，滑動，偷溜，(v)
+slim@4苗條的，纖細的，修長的，(adj)
+slippers@8拖鞋，(n)
+snail@5蝸牛，(n)
+sneakers@8膠底運動鞋，(n)
+sneaky@6鬼祟的，卑劣的，(adj)
+snowman@7雪人，(n)
+soccer@6(英式)足球，(n)
+social science@14社會科學，(n)
+softball@8壘球，(n)
+solve@5解釋，說明，解決，(v)
+sore throat@11喉嚨痛，(n)
+soy-sauce@9醬油，(n)
+spaghetti@9義大利麵條，(n)
+speaker@7說話者，演講者，揚聲器，(n)
+spider@6蜘蛛，三腳架，(n)
+stamp collecting@16集郵，(n)
+standard@8標準，規格，(n)，標準的，(adj)
+stationery store@16文具店，(n)
+steal@5偷，竊取，(v)
+step@4步，腳步，步驟，臺階，(n)，跨步，行走，踩，踏上(on)，(vi)
+stick@5捧，手杖，(n)，刺，戳，黏貼，(vt)(pt&pp:stuck)
+stingy@6吝嗇的，小氣的，(adj)
+stomachache@11肚子痛，胃痛，(n)
+stormy@6暴風雨的，暴躁的，激烈的，(adj)
+stove@5爐，火爐，電爐，(n)
+straw@5稻草，麥桿，吸管，(n)
+strawberry@10草莓，(n)
+stream@6小河，溪，流動，潮流，(n)
+struggle@8鬥爭，奮鬥，努力，掙扎，(n)，鬥爭，奮鬥，努力，掙扎，(vi)
+style@5作風，風格，樣式，(n)
+subject@7主題，題目，學科，主語(語法用語)，(n)，易遭…的，受…支配，(adj)
+surface@7表面，面，外表，外觀，(n)
+surfing@7衝浪，上網，(n)
+swan@4天鵝，(n)
+sweep@5(打)掃，掠過，掃視，(v)
+swimsuit@8游泳衣，泳裝，(n)
+swing@5搖擺，盪鞦韆，迴旋，(v)
+table cloth@11桌布，(n)
+table tennis@12乒乓球，桌球，(n)
+Taichung@8台中，(n)
+Tainan@6台南，(n)
+Taipei@6台北，(n)
+Taiwanese@9台灣的，台灣人，(a， n)
+talkative@9多嘴的，饒舌的，(adj)
+tangerine@9椪柑，橘，(n)
+tank@4槽，戰車，坦克車，(n)
+tape recorder@13錄音機，(n)
+task@4任務，工作，(n)
+teapot@6茶壺，(n)
+temple@6神殿，寺廟，教堂，殿堂，(n)
+textbook@8教科書，課本，(n)
+Thanksgiving Day@16感恩節，(n)
+therefore@9因此，所以，(adv)
+thirteenth@10第十三，十三分之一，(n)
+thought@7思想，(n)
+throat@6咽喉，喉嚨，(n)
+throughout@10遍及，貫穿，(prep)，到處，自始至終，(adv)
+thumb@5拇指，(n)
+thus@4如此，這樣，因此，(adv)
+tidy@4整潔的，整齊的，(adj)
+tiny@4極小的，微小的，(adj)
+tip@3頂，尖端，梢，傾斜，輕擊，末端，小費，秘密消息，(n)，在…頂端裝附加物，使傾斜，使翻倒，暗示，輕擊，給，洩漏，給小費，(vt)
+title@5標題，頭銜，(n)
+toast@5烤麵包片，土司，(n)
+toe@3腳趾，腳尖，(n)
+tofu@4豆腐，(n)
+toilet@6浴室，廁所，(n)
+tool@4工具，(n)
+toothbrush@10牙刷，(n)
+topic@5題目，話題，主題，(n)
+toward@6(表示方向)朝，向，(prep)
+track@5跑道，小路，軌道，足跡，蹤跡，(n)，跟蹤，追蹤，(vt)
+tradition@9傳統，慣例，(n)
+traditional@11傳統的，慣例的，(adj)
+traffic light@13交通燈號誌，(n)
+train station@13火車站，(n)
+trap@4陷阱，圈套，詭計，(n)
+trash can@9垃圾桶，(n)
+traveling@9旅行的，遊歷的，(adj)
+treasure@8財寶，寶藏，(n)
+trick@5欺詐，哄騙，(vt)，詭計，花招，把戲，戲法，惡作劇，(n)
+trousers@8褲子，長褲，(n)
+tub@3桶，盆，浴盆，(n)
+tummy@5(兒語)肚子，(n)
+tunnel@6隧道，地道，坑道，(n)
+turtle@6海龜，龜，甲魚，玳瑁，(n)
+uh-uh@5嗯嗯，(interj)
+underlie@8位於…的下面，(v)
+underpass@9地道，地下道，(n)
+underwear@9內衣，(n)
+under-weight@12重量不足，(adj)
+unfriendly@10不友善地，(adv)
+unit@4個體，(計量)單位，(軍隊的)部隊單位，[數學]最小的整數，(n)
+university@10大學，(n)
+used@4用過的，舊的，(adj)，習慣於…的，(adj)
+Valentine's Day@15西洋情人節，(n)
+VCR@3錄影機，(n)
+vocabulary@10字彙，生字，(n)
+volleyball@10排球，(n)
+vote@4投票，(v)
+waist@5腰，腰部，(n)
+walkman@7隨身聽，(n)
+wallet@6錢包，皮夾，(n)
+waste@5浪費，毀壞，(v)
+watermelon@10西瓜，(n)
+whatever@8無論什麼，不管什麼，(pron)，不管怎樣的，無論什麼樣的，(adj)
+winner@6贏家，勝利者，(n)
+within@6在…內，(prep)
+woods@5樹林，森林，(n)
+worried@7煩惱的，擔心的，(adj)
+wow@3哎喲，哇，(interj)
+wrist@5手腕，(n)
+yucky@5令人厭惡的，(adj)
+yummy@5好吃的，美味的，(adj)
+zebra@5斑馬，(n)
+accept@6接受，認可，(vt)
+across@6橫過，穿過，在…對面，(prep)，橫過，穿過，…寬，(adv)
+act@3行動，做，(vi)，行為，動作，法令，(n)
+active@6活躍的，積極的，(adj)
 actor@5男演員，(n)
 actress@7女演員，(n)
-addition@8加法，增加，(n)
-address@7地址，演講，(n)
-advice@6勸告，(n)
-advise@6建議，(vt)
-affair@6事情，(n)
-against@7違反，反對，(prep)
-ahead@5在前，提前，(adv)
-aim@3瞄準，目標，(n)
+addition@8加，加起來，增加物，增加，加法，(n)
+address@7地址，住址，演講，(n)，寫姓名地址(於郵件上)，向…講話，(vt)
+advertisement@13廣告，做廣告，(n)
+advice@6勸告，意見，(n)
+advise@6勸告，建議，通知，(vt)
+affair@6事情，事件，(n)
+against@7違反，逆，反(對)，倚在，緊靠在，(prep)
+ahead@5在前，向前，提前，(adv)
+aim@3把…瞄準，把…對準，(vt)，瞄準，旨在(at)，(vi)
 airline@7航線，(n)
-alive@5活著的，(adj)
-allow@5允許，(vt)
-alone@5單獨的，(adj)
-among@5在…之中，(prep)
+alive@5活著的，存在的，活躍的，(adj)
+allow@5允許，准許，(vt)
+alone@5單獨的，孤獨的，(adj)，單獨地，獨自地，僅僅，只，(adv)
+altogether@10總共，完全，總之，(adv)
+among@5在…之中，在…之間，(prep)
 amount@6合計，(vi)
-anger@5憤怒，(n)
-area@4地區，面積，(n)
-argue@5爭論，(vi)
-artist@6藝術家，(n)
+anger@5憤怒，(n)，使發怒，(vt)
+anywhere@8任何地方，無論哪裡，(pron)
+area@4地區，地域，範圍，面積，(n)
+argue@5爭論，爭辯，(vi)，論證，主張，辯論，(vt)
+artist@6藝術家，美術家，(n)
 asleep@6睡覺的，(adj)
-assistant@9助手，(n)
-attack@6攻擊，(v)
-audience@8觀眾，(n)
-awake@5喚醒，(vt)
+assistant@9助手，助理，助教，(n)，助手的，輔助的，(adj)
+attack@6攻擊，進攻，襲擊，(v)
+audience@8聽眾，觀眾，接見，拜見，(n)
+Australian@10澳大利亞(人)的，(adj)，澳大利亞人，(n)
+awake@5喚醒，使…覺醒，(vt)
 aware@5意識到，(adj)
 bake@4烘，烤，(vt)
 banker@6銀行家，(n)
-beat@4打，擊，(vt)
+barbecue@8吃烤燒肉的野餐，(n)
+beat@4打，擊，打敗，(vt)，(心臟等)跳動，(vi)
 beer@4啤酒，(n)
 beginner@8初學者，(n)
-belief@6信仰，(n)
-bench@5長凳，(n)
-better@6更好的，(adj)
-bill@4帳單，(n)
+belief@6信任，信心，信仰，(n)
+bench@5長凳，長椅，(n)
+better@6較好的，更好的，(健康)好轉的，(adj)，更好地，(adv)
+bill@4帳單，單子，清單，鈔票，喙，鳥嘴，(n)
 blanket@7毯子，(n)
-boil@4沸騰，(vi)
-bone@4骨頭，(n)
-bow@3弓，鞠躬，(n)
-brain@5腦，(n)
-branch@6樹枝，分店，(n)
+boil@4沸騰，(vi)，使…沸騰，(vt)
+bone@4骨，骨骼，(n)
+bow@3弓(形物)，蝴蝶結，(n)，鞠躬，點頭，(n)
+brain@5腦(袋)，智力，(n)
+branch@6樹枝，分支，分部，分公司，(n)
 brave@5勇敢的，(adj)
-brief@5簡短的，(adj)
-broad@5寬的，(adj)
-broadcast@9廣播，(n)
-bucket@6水桶，(n)
-cage@4籠子，(n)
-calm@4平靜的，(adj)
+brief@5摘要，大綱，(n)，簡短的，短暫的，(adj)
+British@7不列顛(人)的，英國(人)的，(adj)，英國人，(n)
+broad@5寬的，闊的，廣闊的，廣泛的，(adj)
+broadcast@9廣播，播音，(vi)，廣播，播音，(n)
+bucket@6水桶，桶，(n)
+cage@4籠，(n)
+calm@4平靜的，鎮靜的，(adj)，使…平靜/鎮定，(vt)
 candle@6蠟燭，(n)
-captain@7隊長，船長，(n)
-career@6職業，生涯，(n)
+captain@7上尉，隊長，船長，機長，(n)
+career@6(原意:道路，軌道)事業，生涯，速度，(n)
 carpet@6地毯，(n)
 carrot@6胡蘿蔔，(n)
 castle@6城堡，(n)
 ceiling@7天花板，(n)
-central@7中心的，(adj)
-chapter@7章節，(n)
-chart@5圖表，(n)
-chief@5首領，主要的，(n)
-choose@6選擇，(vt)
-classic@7經典的，(adj)
-clerk@5店員，(n)
-clever@6聰明的，(adj)
-cloth@5布，(n)
+central@7中央的，中心的，(adj)
+chapter@7(書籍)章，(n)
+chart@5海圖，圖表，(n)，製圖，(vt)
+chief@5首領，酋長，(n)，首要的，主要的，(adj)
+choose@6選擇，挑選，(vt)
+classic@7傑作，名著，(n)，第一流的，(adj)
+clerk@5店員，辦事員，職員，(n)
+clever@6聰明的，機靈的，(adj)
+cloth@5布，布料，抹布，桌布，(n)
+clothing@8(總稱)衣服，(n)
 coin@4硬幣，(n)
-collection@10收藏，(n)
-college@7大學，(n)
-comb@4梳子，(n)
-company@7公司，陪伴，(n)
-compare@7比較，(vt)
-complete@8完成，(vt)
-confirm@7證實，(vt)
-conflict@8衝突，(n)
-consider@8考慮，(vt)
-contain@7包含，(vt)
-continue@8繼續，(v)
-control@7控制，(n)
-corn@4玉米，(n)
-corner@6角落，(n)
-cotton@6棉花，(n)
-cough@5咳嗽，(n)
-countryside@11鄉村，(n)
-couple@6夫婦，(n)
-courage@7勇氣，(n)
-course@6課程，路線，(n)
-crayon@6蠟筆，(n)
-cream@5奶油，(n)
-crisis@6危機，(n)
-crowd@5人群，(n)
-cruel@5殘忍的，(adj)
-cure@4治療，(vt)
+collection@10收藏，徵收，搜集品，捐款，(n)
+college@7大學，學院，(n)
+comb@4梳子，(n)，梳理，(vt)
+company@7公司，同伴，陪伴，(n)
+compare@7比較，對照，(vt)
+complete@8完全的，完整的，(adj)，完成，使…完整，(vt)
+concern@7關心，掛念，(n)，涉及，使關心，掛念，(vt)
+confirm@7證實，確實，確切，(vt)
+conflict@8衝突，(vi)，爭論，衝突，(n)
+congratulation@14祝賀，恭賀，(n)
+consider@8認為，把…看作，考慮，細想，(vt)，考慮，細想(over)，(vi)
+contain@7包含，容納，(vt)
+continue@8繼續，延續，(v)
+control@7控制，支配，克制，(vt)，控制，克制，(n)
+conversation@12談話，會話，(n)
+corn@4穀物，小麥，玉米，(n)
+corner@6角，牆角，街角，(n)
+cotton@6棉花，棉布，(n)
+cough@5咳嗽，(v)，咳嗽，(n)
+countryside@11農村，(n)
+county@6縣，郡，(n)
+couple@6夫妻，一對，一雙，兩三個，一些，(n)，連接，結合，(vt)
+courage@7勇氣，膽量，(n)
+course@6課程，教程，進程，路線，(一)道(菜)，(n)
+crayon@6有色粉筆，蠟筆，粉筆畫，(n)
+cream@5奶油，膏，霜，(n)
+crisis@6危機，危急關頭，(n)
+crowd@5群，人群，群眾，(n)，聚集，群集，(vi)
+cruel@5殘酷的，殘忍的，(adj)
+cure@4治癒，消除，改正，(vt)，治癒，治療，(n)
 curious@7好奇的，(adj)
-current@7目前的，(adj)
-curtain@7窗簾，(n)
-customer@8顧客，(n)
+current@7水流，電流，(n)，當前的，流行的，(adj)
+curtain@7簾，窗簾，門簾，幕，(n)
+customer@8顧客，主顧，(n)
 danger@6危險，(n)
-data@4資料，(n)
-deaf@4聾的，(adj)
-death@5死亡，(n)
-debt@4債務，(n)
+data@4[計]資料，(n)
+deaf@4聾的，不願聽的，(adj)
+death@5死，死亡，(n)
+debt@4債務，罪過，(n)
 decision@8決定，(n)
-deep@4深的，(adj)
+deep@4深的，縱深的，深切的，(adj)，深深地，(adv)
 deer@4鹿，(n)
-degree@6度數，學位，(n)
-deny@4否認，(vt)
-depend@6依靠，(vi)
-describe@8描述，(vt)
-desert@6沙漠，(n)
-design@6設計，(v)
-desire@6渴望，(n)
-develop@7發展，(v)
-diamond@7鑽石，(n)
-diary@5日記，(n)
-diet@4飲食，(n)
-difference@10差異，(n)
-difficulty@10困難，(n)
+degree@6程度，度數，學位，(n)
+democracy@9民主政治，民主主義，(n)
+democratic@10民主的，民主主義的，民主政體的，平民的，(adj)
+deny@4否認，拒絕給予，(vt)
+depend@6依靠，依賴，決定於(on，upon)，(vi)
+describe@8形容，描寫，(vt)
+desert@6沙漠，不毛之地，(n)，遺棄，(vt)
+design@6設計，(v)，設計，圖樣，圖案，(n)
+desire@6願望，渴望，(n)，想望，渴望，(vt)
+develop@7發展，形成，開發，(vt)，發展，成長，發育，(vi)
+diamond@7鑽石，金剛石，菱形，(n)
+diary@5日記，日記本，(n)
+diet@4通常所吃的食物，會議，(n)
+difference@10差別，差異，差額，(n)
+difficulty@10困難，難事，(n)
 dinosaur@8恐龍，(n)
-direction@9方向，(n)
-discover@8發現，(v)
-discussion@10討論，(n)
-distance@8距離，(n)
-document@8文件，(n)
-double@6雙倍的，(adj)
-drawing@7繪畫，(n)
-drug@4藥物，(n)
+diplomat@8外交官，有外交手腕的人，有權謀的人，(n)
+direction@9方向，方位，(複)使用說明，(n)
+discover@8發現，暴露，顯示，(v)
+discussion@10討論，談論，(n)
+distance@8距離，間距，(n)
+division@8分開，分割，區分，除法，公司，(軍事)師，分配，分界線，(n)
+document@8公文，文件，文檔，檔案，文獻，(n)，證明，(v)
+double@6兩倍的，雙(重)的，(adj)，(使…)加倍，(v)
+downtown@8往市中心，在市中心，(adv)，往市中心，在市中心，(adj)
+drawing@7畫畫，圖畫，素描，(n)
+drug@4藥，藥物;(複)毒品，麻醉藥品，(n)，用藥麻醉，(vt)
 duck@4鴨子，(n)
-eagle@5老鷹，(n)
-earn@4賺取，(vt)
-education@9教育，(n)
-effective@9有效的，(adj)
-elder@5年長的，(adj)
-election@8選舉，(n)
-electric@8電的，(adj)
-element@7元素，(n)
-empty@5空的，(adj)
-enemy@5敵人，(n)
-energy@6能量，(n)
-engineer@8工程師，(n)
-entrance@8入口，(n)
+eagle@5鷹，(n)
+earn@4賺得，獲得，掙得，(vt)
+education@9教育，培養，(n)
+effective@9有效的，被實施的，給人深刻印象的，有力的，(adj)
+elder@5年齡大的，年長的，(adj)，(複)長輩，(n)
+election@8選舉，當選，(n)
+electric@8電的，電動的，(adj)
+electricity@11電，(n)
+element@7要素，元素，成分，元件，自然環境，(n)
+eleventh@8第十一，(num)，十一分之一，(n)
+empty@5空的，空洞的，空虛的，(adj)，使…空，倒空，(v)
+enemy@5敵人，敵軍，仇敵，(n)
+energy@6精力，活力，能(量)，(n)
+engineer@8工程師，技師，(n)，設計，建造，(v)
+entrance@8入口，門口，(n)
 envelope@8信封，(n)
-envy@4羡慕，(v)
-event@5事件，(n)
-exam@4考試，(n)
+envy@4羡慕，妒忌，(v)
+especially@10特別，尤其，格外，(adv)
+event@5事件，大事，(n)
+everywhere@10到處，無論何處，(adv)
+exam@4(口語)考試，(n)
+excite@6使…興奮，使…激動，(vt)
 exist@5存在，(vi)
 exit@4出口，(n)
-expect@6期待，(vt)
-explain@7解釋，(vt)
-extra@5額外的，(adj)
-fail@4失敗，(v)
-false@5錯誤的，(adj)
-fancy@5花俏的，(adj)
-fault@5錯誤，(n)
-fear@4恐懼，(n)
+expect@6預料，等待，期待，(vt)
+explain@7解釋，說明，(vt)
+extra@5額外的，外加的，(adj)，特別地，(adv)
+fail@4失敗，不及格，失靈，(vi)，不，未能，使…不及格，(vt)
+failure@7失敗，失敗者，缺乏，失靈，故障，破產，疏忽，(美)不及格，(n)
+fair@4公平的，公正的，尚可的，(adj)，公平地，(adv)
+false@5假的，(adj)
+family name@11姓，(n)
+fancy@5奇特的，異樣的，(adj)，愛好，迷戀，想像力，(n)
+fantastic@9幻想的，奇異的，稀奇古怪的，荒謬的，空想的，(adj)
+fashionable@11流行的，時髦的，(adj)
+fault@5過失，過錯，缺點，故障，(n)
+fear@4害怕，恐怕，(n)，畏懼，害怕，擔心，(vt)
 feather@7羽毛，(n)
-fence@5圍欄，(n)
-fever@5發燒，(n)
-fight@5打架，(v)
-film@4電影，(n)
-final@5最後的，(adj)
-fool@4傻瓜，(n)
+fence@5柵欄，圍欄，籬笆，(n)
+fever@5發燒，一時的狂熱，(n)
+fight@5作戰，戰鬥，交戰;打架;搏鬥，格鬥;拳擊比賽，(n)，戰鬥，作戰，鬥爭，爭鬥;搏鬥，打架，(vi)
+film@4電影，影片，膠捲，膠片，(n)，把…拍攝成電影，(vt)
+final@5最後的，最終的，決定性的，(adj)
+first grade@11一年級，(n)
+first name@10名，(n)
+food restaurant@15餐廳，(n)
+fool@4蠢人，傻瓜，(n)，愚弄，欺騙，(vt)
 foolish@7愚蠢的，(adj)
-football@8足球，(n)
-force@5力量，強迫，(n)
+football@8足球，足球運動，(n)
+force@5強迫，迫使，(vt)，暴力，武力，力氣，(複)軍隊，(n)
 forest@6森林，(n)
-form@4形式，表格，(n)
+form@4形式，形狀，表格，(n)，形成，組成，(vt)
+forward@7向前的，前部的，(adj)，向前地，前部地，(adv)
+fox@3狐狸，狡猾的人，(n)
+French@6法國的，法國人的，(adj)，(總稱)法國人，法語，(n)
+friendship@10友誼，友情，(n)
+frighten@8使…驚恐，嚇唬，(vt)
+fry@3煎，炸，炒，(v)
+function@8官能，功能，作用，職責，典禮，儀式，[數]函數，(n)，(器官等)活動，運行，行使職責，(vi)
+garage@6車庫，(n)
+gate@4大門，柵門，登機門，(n)
+gather@6聚集，集合，(vi)，收集，採集，(vt)
+generally@9一般地，(adv)
+gentle@6和藹的，溫和的，輕柔的，徐緩的，(adj)
+gentleman@9先生，紳士，(n)
+geographical@12地理(學)的，(adj)
+German@6德國(人)的，德語的，(adj)，德國人，德語，(n)
+get in@6進入，坐上，搭乘，(片)
+girlfriend@10女朋友，(n)
+given name@10名字，教名，(n)
+gloves@6手套，(n)
+goal@4球門，進球，得分，目標，目的，(n)
+god@3神，(God)上帝，(n)
+gold@4金，黃金，(n)
+golden@6金(黃)色的，金(製)的，極好的，(adj)
+good looking@12美貌的，漂亮的，英俊的，(adj)
+government@10政府，治理，管理，(n)
+grand@5盛大的，豪華的，重大的，主要的，極重要的，(adj)
+grapefruit@10葡萄柚(樹)，(n)
+greet@5問候，招呼，迎接，對…報(以)，(vt)
+guard@5看守，保衛人員，衛兵，(n)，防止，防範(against)，(vi)
+guest@5客人，旅客，(n)
+guide@5嚮導，導遊，指南，(n)，給…領路，指導，(vt)
+gun@3槍，手槍，(n)
+haircut@7理髮，剪髮的方式，(n)
+hall@4大廳，禮堂，會堂，(n)
+handkerchief@12手帕，(n)
+hardly@6簡直不，幾乎不，(adv)
+height@6高，高度，身高，頂點，(複)高處，高地，(n)
+hen@3母雞，(n)
+hero@4英雄，男主角，男主人，(n)
+hike@4遠足，飛起，步行，(v)，遠足，增加，(n)
+hippopotamus@12河馬，(n)
+hire@4雇傭，租用，(vt)
+housework@9家務勞動，(n)
+human@5人的，人類的，(adj)，人，(n)
+hunger@6饑餓，渴望(for)，(n)
+ill@3有病的，壞的，(adj)，壞，不利地，(adv)
+importance@10重要，重要性，(n)
+impossible@10不可能的，辦不到的，(adj)
+improve@7改善，改進，(vt)，改善，好轉，(vi)
+in back of@10在(某人)之後，背地裡，暗中，(片)
+inch@4英寸，(n)
+include@7包括，包含，(vt)
+indefinite@10不確定的，不明確，無限期的，(adj)
+industry@8工業，產業，行業，勤奮，(n)
+ink@3墨水，油墨，(n)
+international@13國際的，世界(性)的，(adj)
+introduce@9介紹，引進，傳入，(vt)
+invite@6邀請，聘請，(vt)
+iron@4鐵，熨斗，(n)，熨，燙，(vt)
+Japanese@8日本(人)的，日語的，(adj)，日本人，日語，(n)
+jar@3甕，瓶，罐，(n)
+joke@4笑話，玩笑，(n)，說笑話，開玩笑，(vi)
+lane@4小路，小徑，(n)
+lantern@7燈籠，提燈，幻燈，信號，天窗，(n)
+last name@9姓，(n)
+law@3法律，法規，法則，(n)
+lift@4提，帶，(v)，電梯，上升(力)，免費搭車，(n)
+location@8場所，位置，地點，(n)
+lock@4鎖，(n)，鎖，(被)鎖上，(v)
+Los Angeles@11洛杉磯，(n)
+lot@3許多，大量，命運，(n)
+lovely@6可愛的，秀美的，(adj)
+lunch box@9午餐盒，飯盒，(n)
+mad@3發病的，瘋狂的，惱火的，狂怒的，(adj)
+magazine@8雜誌，期刊，(n)
+main@4主要的，最重要的，(adj)
+manager@7管理者，經營者，處理者，(vt)
+marry@5結婚，(vi)，娶，嫁，和…結婚，(vt)
+mass@4眾多，大量，團，塊，(n)
+meaning@7意義，意思，(n)
+measurement@11測量，(n)
+melon@5(各種的)瓜，(n)
+member@6成員，會員，(n)
+memory@6記憶，記憶力，回憶，紀念，(n)
+message@7訊息，文電，便條，口信，(n)
+method@6方法，辦法，(n)
+Michael Jackson@15麥可傑克森(人名)，(n)
+microwave oven@14微波爐，(n)
+midnight@8午夜，(n)
+mix@3(使…)混合，混淆，(vt)，相混合，(vi)
+model@5模型，模範，模特兒，(汽車，機器)型號，(n)
+mop@3拖把(俗稱地拖)，洗碗，(n)，用拖把拖洗，擦，抹，掃蕩，(v)
+movement@8運動，活動，移動，(n)
+nail@4釘子，指甲，(n)，釘，釘牢，(vt)
+narrow@6狹窄的，(adj)
+nation@6國家，民族，(n)
+nationality@11國民性，國籍，國民，(n)
+natural@7自然的，天然的，(adj)
+nature@6大自然，性質，(n)
+nearly@6幾乎，差不多，(ad)
+necessary@9必要的，必然的，(adj)
+necktie@7領帶，(n)
+neither@7也不，(conj， adv)，兩者皆不的，(adj)
+nervous@7神經緊張的，情緒不安的，(adj)
+newspaper@9報紙，(n)
+nice looking@12美貌的，漂亮的，英俊的，(adj)
+ninetieth@9第九十，九十分之一，(n)
+noisy@5喧鬧的，(adj)
+none@4沒有一人(或物)，沒有一點兒，(pron)，毫不，毫無，(adv)
+noodles@7麵條，(n)
+nor@3也不，也沒有，(conj)
+nut@3堅果(如核桃，栗子等)，(n)
+obey@4順從，聽從，(vt)
+occupation@10職業，佔有，居住，佔領，(n)
+ocean@5洋，海洋，(n)
+oh@2噢，啊，唉，(int)
+oneself@7自己，自身，親自，本人，(pron)
+operation@9運轉，運行，動手術，經營，操作，(n)
+opinion@7意見，看法，(n)
+ordinary@8一般的，普通的，平淡的，(adj)
+organize@8組織，籌辦，(vt)
+pain@4疼痛，痛苦，悲痛(複)辛苦，(n)
+pale@4蒼白的，灰白的，淡的，(adj)
+pan@3平底鍋，(n)
+pardon@6原諒，饒恕，(vt)，原諒，對不起，(n)
+passenger@9乘客，旅客，(n)
+path@4小路，小徑，(n)
+patient@7忍耐的，有耐心的，(adj)，病人，(n)
+pattern@7型，模式，樣式，花樣，圖案，(n)
+peace@5和平，和睦，平靜，(n)
+peaceful@8和平的，平靜的，安寧的，(adj)
+pear@4梨，(n)
+perfect@7完美的，完滿的，(語法)完成的，(adj)，使…完美，(vt)
+period@6(一段)時間，時期，句號，句點，(n)
+personal@8個人的，私人的，本人的，親自的，(adj)
+photo@5相片，(n)
+photographer@12攝影師，攝影者，(n)
+pile@4一堆，一疊，(n)，把…堆積，(v)
+pin@3大頭針，別針，(n)，別住，釘住，(vt)
+pingpong@8乒乓球，(n)
+pipe@4管子，管道，煙斗，(n)，用管道輸送，(vt)
+plain@5平原，(n)，樸素的，簡單的，平常的，(adj)
+plant@5植物，工廠，(n)，種植，(vt)
+plate@5盤子，盆子，平板，(n)，鍍上，(vt)
+pleasant@8令人愉快的，討人喜歡的，(adj)
+pleasure@8高興，樂趣，喜悅，(n)
+pocket@6衣袋，小袋，口袋，(n)，袖珍的，小型的，(adj)
+poem@4詩，(n)
+pool@4水池，共用物，(n)
+population@10人口，(n)
+port@4港口，(n)
+position@8位置，職位，姿勢，見解，立場，(n)
+possessive@10擁有的，(adj)
+pot@3罐，壺，(n)
+power@5權力，勢力，力(量)，功率，動力，(n)
+praise@6稱讚，表揚，(n)，讚揚，表揚，吹捧，(vt)
+precious@8珍貴的，寶貴的，(adj)
+preposition@11介系詞，前置詞，(n)
+president@9總統，校長，會長，總裁，主席，(n)
+print@5印刷，出版，(vt)，印刷，印刷品，字體，(n)
+printer@7印表機，(n)
+prisoner@8囚犯，(n)
+probably@8大概，或許，很可能，(adv)
+produce@7生產，製造，產生，(vt)，農產品，(n)
+product@7產品，(n)
+production@10生產，產量，產品，(n)
+progress@8前進，進步，進展，(n)，前進，進步，進展，(vi)
+promise@7允諾，答應，(vt)，允諾，有指望，(vi)
+pronoun@7代名詞，(n)
+pronounce@9發音，宣佈，(vt)
+protect@7保護，保衛，(v)
+punish@6懲罰，處罰，(vt)
+purpose@7目的，意圖，用途，(n)
+quarter@7四分之一，季度，一刻鐘，(n)
+quickly@7快，迅速地，(adv)
+raincoat@8雨衣，(n)
+rather@6相當，有一點兒，寧願，(adv)
+reading test@12閱讀測驗，(n)
+reason@6理由，原因，理性，(n)，推理，(vt)
+record@6記錄，記載，唱片，(n)，記錄，記載，錄下，(vt)
+recycle@7使再迴圈，反復應用，(v)，再迴圈，再生，重復利用，(n)
+reflexive@9反身代名詞，(n)
+refuse@6拒絕，謝絕，(v)
+regret@6遺憾，後悔，(n)，遺憾，後悔，(v)
+remind@6提醒，使…想起，(vt)
+repair@6修理，修補，(n)，修理，修補，(vt)
+reply@5回答，答覆，(n)，回答，答覆，(v)
+Republic of China@17中華民國，(n)
+require@7需要，規定，要求，(vt)
+respect@7尊敬，尊重，(vt)，尊重，敬意，(複)敬意，(n)
+review@6評論，回顧，復習，(n)，審查，復習，評論，(vt)
+Rome@4羅馬，(n)
+rubber@6橡皮，橡膠(製品)，(複)膠鞋，(n)
+rush@4衝，奔，倉促行動，(vi)，催促，(vt)
+Russian@7俄羅斯(人)的，俄語的，(adj)，俄羅斯人，俄語，(n)
+safety@6安全，平安，(n)
+sail@4帆，航行，(n)，航行，(vi)
+San Francisco@13舊金山，(n)
+sand@4沙，(複)沙灘，(n)
+satisfied@9滿意的，(adj)
+satisfy@7使…滿足，使…滿意，(vt)
+science@7科學，學科，(n)
+search@6搜，尋，探查，(v)，搜，尋，探查，(n)
+second grade@12二年級，(n)
+secret@6秘密的，機密的，(adj)，秘密，秘訣，(n)
+secretary@9秘書，書記，大臣，(n)
+seem@4好像，似乎，(vi)
+service@7服務，效勞，(n)，維修，保養，(vt)
+sheet@5(一)張，片，薄片，床單，(n)
+shore@5岸，濱，(n)
+shout@5呼喊，呼叫，(v)，呼喊，呼叫，(n)
+shower@6陣雨，暴雨，淋浴，(一)陣，大批，(n)
+shut@4關(閉)，(v)
+silence@7寂靜，沈默，(n)
+silent@6寂靜的，沈默的，(adj)
+silly@5傻的，糊塗的，(adj)
+single@6單一的，單個的，單身的，未婚的，(adj)
+skate@5溜冰鞋，冰刀，輪鞋，輪式溜冰鞋，(n)
+ski@3滑雪板，雪屐，雪橇，(n)，滑雪，(v)
+skill@5技能，技巧，手藝，(n)
+skillful@8靈巧的，熟練的，製作精巧的，(adj)
+skin@4皮(膚)，外皮，(n)
+sleepy@6困乏的，欲睡的，(adj)
+soap@4肥皂，(n)
+society@7社會，社，團體，協會，(n)
+soft drink@10碳酸飲料，不含酒精飲料，(n)
+soldier@7士兵，軍人，(n)
+speech@6說話，言語，演說，講話，發言，(n)
+spirit@6精神，氣概，志氣;(複)心情，烈灑，(n)
+sport@5(體育)運動;(複)運動會，(n)
+spread@6推開，塗敷，傳播，(vt)，傳開，蔓延，(vi)
+stage@5階段，時期，舞臺，(n)
+stamp@5郵票，印花，印，圖章，(n)，在…上蓋印(或郵戳)，(vt)
+stationery@10文具，信紙，(n)
+steam@5(蒸)汽，(n)，冒蒸汽，(vi)
+storm@5暴風雨，暴風雪，(n)，下暴雨，起風暴，(vi)
+straight@8直的，筆直的，直接了當的，(adj)，直接，一直，立即，(adv)
+success@7成就，成功，(n)
+successfully@12成功地，(adv)
+such@4這樣的，這種的，(adj)，那麼，(adv)
+sudden@6突然的，意外的，(adj)
+suddenly@8突然地，(adv)
+suitcase@8衣箱，小提箱，(n)
+supper@6晚餐，(n)
+support@7支援，擁護，供養，支撐，維持，(vt)，支援，支承，支撐，(n)
+surf@4海浪，拍岸浪，(n)，在激浪上駕(船)，在…衝浪，(vt)
+swimming@8游泳，(n)
+tableware@9餐具，(n)
+tail@4尾巴，後部，(n)
+tear@4眼淚，(n)，撕裂，撕破，(v)
+temperature@11溫度，(n)
+tent@4帳蓬，(n)
+term@4學期，期限，期間，術語，(n)
+terrible@8可怕的，駭人的，(adj)
+terrific@8令人恐怖的，(adj)
+thanksgiving@12感謝，[宗]感恩祈禱，(n)
+thick@5厚的，粗的，稠的，濃的，(adj)
+thief@5小偷，賊，(n)
+thirtieth@9第三十，(num)，三十分之一，(n)
+tie@3拴，紮，捆，繫上，(vt)，領帶，領結，聯繫，(n)
+till@4直到(…為止)，(prep)，直到(…為止)，(conj)
+Tokyo@5東京，(n)
+tongue@6舌頭，語言，(n)
+toothache@9牙痛，(n)
+tower@5塔(樓)，(n)
+trade@5貿易，商業，行業，職業，(n)，相互交換，(vt)
+traffic sign@12交通號誌，(n)
+transportation@14運輸，(n)
+travel@6旅行，行進，(vi)，旅行，(n)
+trust@5信任，信賴，相信，(n)，信任，信賴，相信，(v)
+truth@5真相，真理，真實性，(n)
+twelfth@7第十二，(num)，十二分之一，(n)
+twentieth@9第二十，(num)，二十分之一，(n)
+type@4類型，種類，品種，(n)，打字，(v)
+typewriter@10打字機，(n)
+ugly@4醜陋的，難看的，難聽的，(adj)
+upon@4(同on)在…上，憑，靠，根據，針對，(prep)
+upstairs@8在樓上，往樓上，(adv)，樓上的，(adj)
+usual@5通常的，平常的，(adj)
+valley@6山谷，(n)
+valuable@8貴重的，有價值的，(adj)，貴重物品，(n)
+verb@4動詞，(n)
+victory@7勝利，(n)
+visitor@7參觀者，訪問者，(n)
+voter@5投票者，有投票權者，(n)
+war@3戰爭，鬥爭，(n)
+wave@4揮動，向…揮手示意，(vt)，浪，波濤，(光，電等的)波，(n)
+wedding@7婚禮，(n)
+weekday@7周一到周五的通稱，(n)
+weight@6重量，體重，(n)
+western@7西的，西方的，來自西方的人，有西方特徵的，(adj)
+wheel@5輪，車輪，(n)
+while@5在(當)…的時候，和…同時，(conj)
+whole@5全部的，整體的，(adj)，全部，整體，(n)
+whom@4(who的受格)誰，(pron)
+wide@4寬闊的，廣泛的，(adj)，全部地，充分地，(adv)
+wild@4野生的，未馴化的，荒蕪的，瘋狂的，(adj)
+willing@7願意的，樂意的，心甘情願的，(adj)
+wing@4翅膀，(n)
+wonder@6感到驚訝，詫異，(vi)，想知道，(vt)
+wood@4木材，木桶，(n)
+wooden@6木製的，(adj)
+worth@5值得，(prep)
+yard@4院子，場地，(n)
+youth@5青春，青少年時期，小夥子，(總稱)年輕人，(n)
+Youth Day@9青年節，(n)
+zero@4零，(num)，零點，零度，(n)
 `;
 
-    // --- PARSING LOGIC ---
-   let appData = [];
+    // --- UPDATED PARSING LOGIC ---
+    let appData = [];
     
     function parseData() {
         const lines = rawDataString.split('\n');
+        appData = []; // Clear existing logic
         lines.forEach(line => {
             line = line.trim();
-            // Remove wrapping quotes if present
             if (line.startsWith('"') && line.endsWith('"')) {
                 line = line.slice(1, -1);
             }
             if (!line) return;
             
-            // UPDATED REGEX: Matches "word@lengthDefinition"
-            // Group 1: Word
-            // Group 2: Length (digits)
-            // Group 3: Definition (rest of string)
+            // FIXED REGEX: Matches "word" @ "length" "rest"
             const match = line.match(/^(.+?)@(\d+)(.+)$/);
             
             if (match) {
@@ -914,13 +1744,11 @@ form@4形式，表格，(n)
                 let defStr = match[3].trim();
                 let posStr = '';
 
-                // Extract Part of Speech from the end, e.g., "..., (n)"
-                // Matches optional comma + parenthesis + content + closing parenthesis at end of string
+                // Try to extract Part of Speech from the end, e.g. "..., (n)"
                 const posMatch = defStr.match(/，?\s*\((.+?)\)$/);
-                
                 if (posMatch) {
-                    posStr = posMatch[1]; // Get the text inside ()
-                    // Remove the POS tag from the definition so it doesn't show twice
+                    posStr = posMatch[1]; 
+                    // Remove POS from definition for cleaner game UI
                     defStr = defStr.replace(/，?\s*\((.+?)\)$/, '').trim();
                 }
 
@@ -935,13 +1763,15 @@ form@4形式，表格，(n)
         
         // Sort alphabetically
         appData.sort((a, b) => a.word.localeCompare(b.word));
+        
+        console.log(`Loaded ${appData.length} words.`);
     }
 
     // --- APP STATE ---
     let currentMode = 'spell';
     let currentGameData = [];
     let currentIndex = 0;
-    const itemsPerPage = 12;
+    const itemsPerPage = 8; // Fewer items per page since rows are larger
     
     // Spell Mode
     let spellPages = [];
@@ -949,7 +1779,7 @@ form@4形式，表格，(n)
 
     // Study Mode
     let studyPage = 0;
-    let studyItemsPerPage = 20; // Fit more items
+    let studyItemsPerPage = 20;
     let currentStudyFilter = 'ALL';
 
     // Match Mode
@@ -961,11 +1791,11 @@ form@4形式，表格，(n)
     window.onload = function() {
         parseData();
         generateCategoryGrid();
-        setupStudyMode(); // Setup filters
+        setupStudyMode();
         renderStudyList();
         
         document.getElementById('study-search').addEventListener('input', (e) => {
-            currentStudyFilter = 'SEARCH'; // Override letter filter
+            currentStudyFilter = 'SEARCH';
             studyPage = 0;
             renderStudyList(e.target.value);
         });
@@ -993,7 +1823,6 @@ form@4形式，表格，(n)
 
     // --- STUDY MODE LOGIC ---
     function setupStudyMode() {
-        // Generate A-Z buttons
         const bar = document.getElementById('az-filter-bar');
         const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
         alphabet.forEach(letter => {
@@ -1008,13 +1837,10 @@ form@4形式，表格，(n)
     function filterStudyByLetter(letter) {
         currentStudyFilter = letter;
         studyPage = 0;
-        document.getElementById('study-search').value = ''; // Clear search
-        
-        // Update UI
+        document.getElementById('study-search').value = ''; 
         document.querySelectorAll('.filter-char').forEach(el => {
             el.classList.toggle('active', el.innerText === letter);
         });
-        
         renderStudyList();
     }
 
@@ -1022,7 +1848,6 @@ form@4形式，表格，(n)
         const list = document.getElementById('study-list');
         list.innerHTML = '';
         
-        // 1. Filter Data
         let filtered = appData;
         if (searchTerm) {
             const term = searchTerm.toLowerCase();
@@ -1034,7 +1859,6 @@ form@4形式，表格，(n)
             filtered = appData.filter(item => item.word.toUpperCase().startsWith(currentStudyFilter));
         }
 
-        // 2. Pagination Logic
         const totalPages = Math.ceil(filtered.length / studyItemsPerPage);
         if (studyPage >= totalPages && totalPages > 0) studyPage = totalPages - 1;
         if (studyPage < 0) studyPage = 0;
@@ -1043,7 +1867,6 @@ form@4形式，表格，(n)
         const end = start + studyItemsPerPage;
         const displayData = filtered.slice(start, end);
 
-        // 3. Render Items
         if (displayData.length === 0) {
             list.innerHTML = '<li style="grid-column: 1 / -1; text-align:center; padding:20px; color:#888;">No words found.</li>';
         } else {
@@ -1059,15 +1882,12 @@ form@4形式，表格，(n)
             });
         }
 
-        // 4. Update Pagination Controls
         document.getElementById('study-page-info').innerText = totalPages === 0 ? "0 / 0" : `${studyPage + 1} / ${totalPages}`;
-        // Hide/Show pagination buttons based on need (optional, currently just bounded by logic)
     }
 
     function changeStudyPage(dir) {
         studyPage += dir;
         renderStudyList(document.getElementById('study-search').value);
-        // Scroll to top of list
         document.getElementById('view-study').scrollTop = 0;
     }
 
@@ -1134,7 +1954,7 @@ form@4形式，表格，(n)
         }
     }
 
-    // --- SPELLING GAME ---
+    // --- SPELLING GAME (UPDATED UI) ---
     function setupSpellingGame() {
         spellPages = [];
         for (let i = 0; i < currentGameData.length; i += itemsPerPage) {
@@ -1153,12 +1973,17 @@ form@4形式，表格，(n)
         document.getElementById('spell-progress').innerText = `Page ${currentSpellPage + 1}/${spellPages.length}`;
 
         items.forEach((item, idx) => {
-            const card = document.createElement('div');
-            card.className = 'spell-card';
+            const row = document.createElement('div');
+            row.className = 'spell-row';
             
-            card.innerHTML = `
-                <div class="question-text">${item.def}</div>
-                <div class="input-group">
+            // Left Column: Definition
+            // Right Column: Input
+            row.innerHTML = `
+                <div class="spell-def-col">
+                    ${item.def} 
+                    <span style="font-size:0.8em; color:#999;">(${item.pos})</span>
+                </div>
+                <div class="spell-input-col">
                     <input type="text" class="spell-input" 
                         id="inp-${idx}" 
                         data-answer="${item.word}" 
@@ -1167,7 +1992,7 @@ form@4形式，表格，(n)
                     <div class="hint-btn" onclick="showHint('inp-${idx}', '${item.word}')">?</div>
                 </div>
             `;
-            container.appendChild(card);
+            container.appendChild(row);
         });
 
         document.getElementById('prev-btn').style.visibility = currentSpellPage > 0 ? 'visible' : 'hidden';
@@ -1180,13 +2005,12 @@ form@4形式，表格，(n)
             const userVal = inp.value.trim().toLowerCase();
             const correctVal = inp.dataset.answer.toLowerCase();
             
-            let isValid = false;
-            if (userVal === correctVal) isValid = true;
+            let isValid = (userVal === correctVal);
             
+            // Also accept alternate answers if formats like "color (colour)" exist (simple check)
             if (!isValid && correctVal.includes('(')) {
                 const mainWord = correctVal.replace(/\(.*\)/, '').trim();
-                const altWord = correctVal.match(/\((.*)\)/)?.[1]?.trim();
-                if (userVal === mainWord || userVal === altWord) isValid = true;
+                if (userVal === mainWord) isValid = true;
             }
 
             if (isValid) {
@@ -1211,7 +2035,7 @@ form@4形式，表格，(n)
         document.getElementById('view-spell').scrollTop = 0;
     }
 
-    // --- MATCHING GAME ---
+    // --- MATCHING GAME (UPDATED COLUMNS) ---
     function setupMatchingGame() {
         currentIndex = 0;
         matchedCount = 0;
@@ -1232,25 +2056,41 @@ form@4形式，表格，(n)
         document.getElementById('match-next-btn').classList.add('hidden');
         document.getElementById('match-score').innerText = `Pairs: 0/${roundData.length}`;
 
-        let cards = [];
-        roundData.forEach(item => {
-            cards.push({ id: item.word, text: item.word, type: 'word', pair: item.word });
-            cards.push({ id: item.word + '_def', text: item.def, type: 'def', pair: item.word });
-        });
+        // 1. Create Data
+        let wordCards = roundData.map(item => ({ 
+            text: item.word, 
+            pair: item.word, 
+            type: 'word'
+        }));
+        
+        let defCards = roundData.map(item => ({ 
+            text: item.def, 
+            pair: item.word,
+            type: 'def' 
+        }));
 
-        cards.sort(() => Math.random() - 0.5);
+        // 2. Shuffle Separately
+        wordCards.sort(() => Math.random() - 0.5); 
+        defCards.sort(() => Math.random() - 0.5);
 
-        const grid = document.getElementById('match-area');
-        grid.innerHTML = '';
+        // 3. Clear Columns
+        const leftCol = document.getElementById('match-col-left');
+        const rightCol = document.getElementById('match-col-right');
+        leftCol.innerHTML = '';
+        rightCol.innerHTML = '';
 
-        cards.forEach(card => {
+        // 4. Render
+        const createCard = (cardData) => {
             const el = document.createElement('div');
             el.className = 'match-card';
-            el.innerText = card.text;
-            el.dataset.pair = card.pair;
+            el.innerText = cardData.text;
+            el.dataset.pair = cardData.pair;
             el.onclick = () => handleCardTap(el);
-            grid.appendChild(el);
-        });
+            return el;
+        };
+
+        wordCards.forEach(card => leftCol.appendChild(createCard(card)));
+        defCards.forEach(card => rightCol.appendChild(createCard(card)));
     }
 
     function handleCardTap(el) {
@@ -1263,10 +2103,14 @@ form@4形式，表格，(n)
         } else {
             const card1 = selectedCard;
             const card2 = el;
+            
+            // Prevent matching from same column (optional, but good UX)
+            // But strict pair checking handles it anyway.
+            
             selectedCard = null;
             isProcessing = true;
 
-            if (card1.dataset.pair === card2.dataset.pair) {
+            if (card1.dataset.pair === card2.dataset.pair && card1 !== card2) {
                 setTimeout(() => {
                     card1.classList.remove('selected');
                     card2.classList.remove('selected');
