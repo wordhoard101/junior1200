@@ -1,9 +1,8 @@
-<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>English Vocabulary Master</title>
+    <title>High School Vocab Master</title>
     <style>
         :root {
             --primary: #4a90e2;
@@ -32,7 +31,7 @@
         /* Header & Nav */
         header {
             background: var(--card);
-            padding: 1rem;
+            padding: 0.8rem 1rem;
             box-shadow: var(--shadow);
             display: flex;
             justify-content: space-between;
@@ -40,15 +39,15 @@
             z-index: 10;
         }
 
-        h1 { margin: 0; font-size: 1.2rem; color: var(--primary); }
+        h1 { margin: 0; font-size: 1.1rem; color: var(--primary); }
 
         .btn {
             background: var(--primary);
             color: white;
             border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            font-size: 0.9rem;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
             cursor: pointer;
             transition: opacity 0.2s;
             display: inline-flex;
@@ -56,7 +55,7 @@
             justify-content: center;
         }
         .btn:active { opacity: 0.7; }
-        .btn-outline { background: transparent; color: var(--primary); border: 2px solid var(--primary); }
+        .btn-outline { background: transparent; color: var(--primary); border: 1px solid var(--primary); }
         .btn-danger { background: var(--danger); }
         .btn-success { background: var(--success); }
         .btn-sm { padding: 0.3rem 0.6rem; font-size: 0.8rem; }
@@ -96,16 +95,15 @@
             border-radius: 6px;
             cursor: pointer;
             font-weight: 600;
+            font-size: 0.9rem;
         }
         .toggle-opt.selected { background: white; color: var(--primary); shadow: 0 2px 4px rgba(0,0,0,0.05); }
 
-        .filter-group {
-            margin-bottom: 1rem;
-        }
-        .filter-group label { display: block; margin-bottom: 0.5rem; font-weight: bold; }
+        .filter-group { margin-bottom: 1rem; }
+        .filter-group label { display: block; margin-bottom: 0.5rem; font-weight: bold; font-size: 0.9rem; }
         select {
             width: 100%;
-            padding: 10px;
+            padding: 8px;
             border-radius: 8px;
             border: 1px solid #ddd;
             font-size: 1rem;
@@ -114,8 +112,8 @@
 
         .category-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
-            gap: 10px;
+            grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+            gap: 8px;
         }
         .cat-btn {
             aspect-ratio: 1;
@@ -126,7 +124,7 @@
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             cursor: pointer;
             box-shadow: 0 2px 0 #eee;
         }
@@ -134,42 +132,109 @@
         
         .big-btn {
             width: 100%;
-            padding: 1rem;
-            font-size: 1.1rem;
+            padding: 0.8rem;
+            font-size: 1rem;
             margin-top: 1rem;
             background: var(--success);
         }
 
-        /* Study Mode */
-        .study-list { list-style: none; padding: 0; }
+        /* --- STUDY MODE STYLES (UPDATED) --- */
+        .study-controls-container {
+            position: sticky;
+            top: -1rem; /* Pull up slightly */
+            background: var(--bg);
+            padding-bottom: 10px;
+            z-index: 5;
+        }
+
+        .az-filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin: 10px 0;
+            justify-content: center;
+        }
+        .filter-char {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--card);
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            cursor: pointer;
+            color: #555;
+        }
+        .filter-char.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        .filter-char:active { transform: scale(0.95); }
+
+        .study-list { 
+            list-style: none; 
+            padding: 0; 
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* 2 Columns */
+            gap: 8px;
+        }
         .study-item {
             background: var(--card);
-            padding: 1rem;
-            margin-bottom: 0.8rem;
-            border-radius: var(--radius);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            padding: 8px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
+            border: 1px solid #eee;
         }
-        .study-word { font-weight: bold; color: var(--primary); font-size: 1.1rem; }
-        .study-def { color: #666; font-size: 0.9rem; text-align: right; max-width: 60%; }
+        .study-word { 
+            font-weight: bold; 
+            color: var(--primary); 
+            font-size: 0.95rem; 
+            margin-bottom: 4px;
+            word-break: break-word; /* Prevent overflow */
+        }
+        .study-def { 
+            color: #555; 
+            font-size: 0.8rem; 
+            line-height: 1.2;
+        }
+        .study-pos {
+            font-size: 0.7rem;
+            color: #999;
+            font-style: italic;
+            margin-bottom: 2px;
+        }
+
+        .study-pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 15px;
+            padding-bottom: 20px;
+        }
+        .page-info { font-size: 0.9rem; color: #666; }
 
         /* Game Mode A: Spelling */
         .spell-card {
             background: var(--card);
-            padding: 2rem;
+            padding: 1.5rem;
             border-radius: var(--radius);
             box-shadow: var(--shadow);
             text-align: center;
             margin-bottom: 1rem;
         }
-        .question-text { font-size: 1.2rem; margin-bottom: 1.5rem; color: #444; min-height: 3rem; }
-        .input-group { position: relative; margin-bottom: 1.5rem; }
+        .question-text { font-size: 1.1rem; margin-bottom: 1rem; color: #444; min-height: 2.5rem; }
+        .input-group { position: relative; margin-bottom: 1rem; }
         .spell-input {
             width: 100%;
-            padding: 12px;
-            font-size: 1.2rem;
+            padding: 10px;
+            font-size: 1.1rem;
             border: 2px solid #ddd;
             border-radius: 8px;
             text-align: center;
@@ -200,25 +265,25 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 2rem;
+            margin-top: 1rem;
         }
 
         /* Game Mode B: Matching */
         .match-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
+            gap: 10px;
             padding-bottom: 2rem;
         }
         .match-card {
             background: var(--card);
-            padding: 1.5rem 0.5rem;
+            padding: 1rem 0.5rem;
             border-radius: var(--radius);
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             text-align: center;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             cursor: pointer;
-            min-height: 80px;
+            min-height: 70px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -238,15 +303,15 @@
 
         /* Utilities */
         .hidden { display: none !important; }
-        .stats { font-size: 0.9rem; color: #666; margin-bottom: 10px; display: flex; justify-content: space-between; }
+        .stats { font-size: 0.9rem; color: #666; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
         
     </style>
 </head>
 <body>
 
     <header>
-        <h1 id="app-title">VocabMaster</h1>
-        <button class="btn btn-outline btn-sm" onclick="showStudyMode()">📖 Study List</button>
+        <h1 id="app-title">VocabMaster HS</h1>
+        <button class="btn btn-outline btn-sm" onclick="showStudyMode()">📖 Study</button>
     </header>
 
     <div id="view-dashboard" class="view active">
@@ -284,7 +349,7 @@
         <div id="spell-container"></div>
         <div class="pagination">
             <button class="btn btn-outline" id="prev-btn" onclick="changePage(-1)">Previous</button>
-            <button class="btn btn-success" id="check-btn" onclick="checkSpelling()">Check Answers</button>
+            <button class="btn btn-success" id="check-btn" onclick="checkSpelling()">Check</button>
             <button class="btn btn-outline" id="next-btn" onclick="changePage(1)">Next</button>
         </div>
     </div>
@@ -299,11 +364,24 @@
     </div>
 
     <div id="view-study" class="view">
-        <div class="stats">
-            <input type="text" id="study-search" placeholder="Search words..." style="width:70%; padding:8px; border-radius:6px; border:1px solid #ccc;">
-            <button class="btn btn-sm" onclick="goHome()">Close</button>
+        <div class="study-controls-container">
+            <div class="stats">
+                <input type="text" id="study-search" placeholder="Search..." style="width:70%; padding:6px; border-radius:6px; border:1px solid #ccc;">
+                <button class="btn btn-sm" onclick="goHome()">Home</button>
+            </div>
+            <div class="az-filter-bar" id="az-filter-bar">
+                <div class="filter-char active" onclick="filterStudyByLetter('ALL')">ALL</div>
+                </div>
         </div>
-        <ul id="study-list" class="study-list"></ul>
+
+        <ul id="study-list" class="study-list">
+            </ul>
+
+        <div class="study-pagination" id="study-pagination">
+            <button class="btn btn-outline btn-sm" onclick="changeStudyPage(-1)">Prev</button>
+            <span class="page-info" id="study-page-info">1 / 10</span>
+            <button class="btn btn-outline btn-sm" onclick="changeStudyPage(1)">Next</button>
+        </div>
     </div>
 
 <script>
@@ -727,33 +805,28 @@ form@4形式，表格，(n)
 `;
 
     // --- PARSING LOGIC ---
-    let appData = [];
+   let appData = [];
     
     function parseData() {
         const lines = rawDataString.split('\n');
         lines.forEach(line => {
             line = line.trim();
+            if (line.startsWith('"') && line.endsWith('"')) {
+                line = line.slice(1, -1);
+            }
             if (!line) return;
             
-            // Format: word@lengthDef
-            // Regex to find the first @ and digits
-            const match = line.match(/^(.+?)@(\d+)(.+)$/);
+            const match = line.match(/^(.+?)@\((.+?)\.(\d+)\)(.+)$/);
+            
             if (match) {
                 appData.push({
                     word: match[1].trim(),
-                    length: parseInt(match[2]),
-                    def: match[3].trim()
+                    pos: match[2].trim(),
+                    length: parseInt(match[3]),
+                    def: match[4].trim()
                 });
-            } else if (line.includes('@')) {
-                // Fallback basic split if regex fails (e.g., no digits)
-                const parts = line.split('@');
-                const w = parts[0].trim();
-                const d = parts[1] ? parts[1].replace(/^\d+/, '').trim() : '';
-                appData.push({ word: w, length: w.length, def: d });
             }
         });
-        
-        // Sort alphabetically by default
         appData.sort((a, b) => a.word.localeCompare(b.word));
     }
 
@@ -763,12 +836,16 @@ form@4形式，表格，(n)
     let currentIndex = 0;
     const itemsPerPage = 12;
     
-    // Spell Mode State
+    // Spell Mode
     let spellPages = [];
     let currentSpellPage = 0;
 
-    // Match Mode State
-    let matchPairs = [];
+    // Study Mode
+    let studyPage = 0;
+    let studyItemsPerPage = 20; // Fit more items
+    let currentStudyFilter = 'ALL';
+
+    // Match Mode
     let selectedCard = null;
     let matchedCount = 0;
     let isProcessing = false;
@@ -777,15 +854,17 @@ form@4形式，表格，(n)
     window.onload = function() {
         parseData();
         generateCategoryGrid();
+        setupStudyMode(); // Setup filters
         renderStudyList();
         
-        // Input Search Listener for Study Mode
         document.getElementById('study-search').addEventListener('input', (e) => {
+            currentStudyFilter = 'SEARCH'; // Override letter filter
+            studyPage = 0;
             renderStudyList(e.target.value);
         });
     };
 
-    // --- NAVIGATION & VIEWS ---
+    // --- NAVIGATION ---
     function setMode(mode, el) {
         currentMode = mode;
         document.querySelectorAll('.toggle-opt').forEach(d => d.classList.remove('selected'));
@@ -803,7 +882,86 @@ form@4形式，表格，(n)
 
     function showStudyMode() {
         switchView('study');
+    }
+
+    // --- STUDY MODE LOGIC ---
+    function setupStudyMode() {
+        // Generate A-Z buttons
+        const bar = document.getElementById('az-filter-bar');
+        const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+        alphabet.forEach(letter => {
+            const btn = document.createElement('div');
+            btn.className = 'filter-char';
+            btn.innerText = letter;
+            btn.onclick = () => filterStudyByLetter(letter);
+            bar.appendChild(btn);
+        });
+    }
+
+    function filterStudyByLetter(letter) {
+        currentStudyFilter = letter;
+        studyPage = 0;
+        document.getElementById('study-search').value = ''; // Clear search
+        
+        // Update UI
+        document.querySelectorAll('.filter-char').forEach(el => {
+            el.classList.toggle('active', el.innerText === letter);
+        });
+        
         renderStudyList();
+    }
+
+    function renderStudyList(searchTerm = '') {
+        const list = document.getElementById('study-list');
+        list.innerHTML = '';
+        
+        // 1. Filter Data
+        let filtered = appData;
+        if (searchTerm) {
+            const term = searchTerm.toLowerCase();
+            filtered = appData.filter(item => 
+                item.word.toLowerCase().includes(term) || 
+                item.def.includes(term)
+            );
+        } else if (currentStudyFilter !== 'ALL') {
+            filtered = appData.filter(item => item.word.toUpperCase().startsWith(currentStudyFilter));
+        }
+
+        // 2. Pagination Logic
+        const totalPages = Math.ceil(filtered.length / studyItemsPerPage);
+        if (studyPage >= totalPages && totalPages > 0) studyPage = totalPages - 1;
+        if (studyPage < 0) studyPage = 0;
+
+        const start = studyPage * studyItemsPerPage;
+        const end = start + studyItemsPerPage;
+        const displayData = filtered.slice(start, end);
+
+        // 3. Render Items
+        if (displayData.length === 0) {
+            list.innerHTML = '<li style="grid-column: 1 / -1; text-align:center; padding:20px; color:#888;">No words found.</li>';
+        } else {
+            displayData.forEach(item => {
+                const li = document.createElement('li');
+                li.className = 'study-item';
+                li.innerHTML = `
+                    <span class="study-word">${item.word}</span>
+                    <span class="study-pos">(${item.pos})</span>
+                    <span class="study-def">${item.def}</span>
+                `;
+                list.appendChild(li);
+            });
+        }
+
+        // 4. Update Pagination Controls
+        document.getElementById('study-page-info').innerText = totalPages === 0 ? "0 / 0" : `${studyPage + 1} / ${totalPages}`;
+        // Hide/Show pagination buttons based on need (optional, currently just bounded by logic)
+    }
+
+    function changeStudyPage(dir) {
+        studyPage += dir;
+        renderStudyList(document.getElementById('study-search').value);
+        // Scroll to top of list
+        document.getElementById('view-study').scrollTop = 0;
     }
 
     // --- DASHBOARD LOGIC ---
@@ -822,12 +980,8 @@ form@4形式，表格，(n)
 
     function getFilteredData(filterChar) {
         const lengthFilter = document.getElementById('length-filter').value;
-        
         return appData.filter(item => {
-            // Filter by Letter (if provided)
             const matchLetter = filterChar ? item.word.toUpperCase().startsWith(filterChar) : true;
-            
-            // Filter by Length
             let matchLength = true;
             if (lengthFilter !== 'all') {
                 if (lengthFilter === '7') {
@@ -836,7 +990,6 @@ form@4形式，表格，(n)
                     matchLength = item.length == parseInt(lengthFilter);
                 }
             }
-            
             return matchLetter && matchLength;
         });
     }
@@ -849,7 +1002,6 @@ form@4形式，表格，(n)
         let data = isRandom ? [...appData] : getFilteredData(filterChar);
         
         if (isRandom) {
-            // Filter by length even in random mode
             const lengthFilter = document.getElementById('length-filter').value;
             if (lengthFilter !== 'all') {
                  data = data.filter(item => {
@@ -857,9 +1009,7 @@ form@4形式，表格，(n)
                     return item.length == parseInt(lengthFilter);
                  });
             }
-            // Shuffle
             data.sort(() => Math.random() - 0.5);
-            // Limit random mode to 20 items to keep it manageable
             data = data.slice(0, 20); 
         }
 
@@ -879,7 +1029,6 @@ form@4形式，表格，(n)
 
     // --- SPELLING GAME ---
     function setupSpellingGame() {
-        // Chunk data into pages
         spellPages = [];
         for (let i = 0; i < currentGameData.length; i += itemsPerPage) {
             spellPages.push(currentGameData.slice(i, i + itemsPerPage));
@@ -900,8 +1049,6 @@ form@4形式，表格，(n)
             const card = document.createElement('div');
             card.className = 'spell-card';
             
-            // Create inputs with ID for checking later
-            // Store answer in dataset
             card.innerHTML = `
                 <div class="question-text">${item.def}</div>
                 <div class="input-group">
@@ -916,7 +1063,6 @@ form@4形式，表格，(n)
             container.appendChild(card);
         });
 
-        // Toggle buttons
         document.getElementById('prev-btn').style.visibility = currentSpellPage > 0 ? 'visible' : 'hidden';
         document.getElementById('next-btn').style.visibility = currentSpellPage < spellPages.length - 1 ? 'visible' : 'hidden';
     }
@@ -927,17 +1073,12 @@ form@4形式，表格，(n)
             const userVal = inp.value.trim().toLowerCase();
             const correctVal = inp.dataset.answer.toLowerCase();
             
-            // Smart matching: Handle parentheses e.g. "bicycle (bike)"
-            // Logic: Correct if user types full string OR content in parens OR word without parens
             let isValid = false;
-            
             if (userVal === correctVal) isValid = true;
             
             if (!isValid && correctVal.includes('(')) {
-                // Extract parts
                 const mainWord = correctVal.replace(/\(.*\)/, '').trim();
                 const altWord = correctVal.match(/\((.*)\)/)?.[1]?.trim();
-                
                 if (userVal === mainWord || userVal === altWord) isValid = true;
             }
 
@@ -953,7 +1094,6 @@ form@4形式，表格，(n)
 
     function showHint(inputId, answer) {
         const inp = document.getElementById(inputId);
-        // Show first 2 letters or full word if short
         inp.value = answer; 
         inp.focus();
     }
@@ -961,14 +1101,11 @@ form@4形式，表格，(n)
     function changePage(dir) {
         currentSpellPage += dir;
         renderSpellPage();
-        // Reset scroll
         document.getElementById('view-spell').scrollTop = 0;
     }
 
     // --- MATCHING GAME ---
     function setupMatchingGame() {
-        // Need sets of 5 pairs (10 cards)
-        // We will process the full currentGameData in batches of 5
         currentIndex = 0;
         matchedCount = 0;
         startMatchingRound();
@@ -988,16 +1125,12 @@ form@4形式，表格，(n)
         document.getElementById('match-next-btn').classList.add('hidden');
         document.getElementById('match-score').innerText = `Pairs: 0/${roundData.length}`;
 
-        // Create cards
         let cards = [];
         roundData.forEach(item => {
-            // Word card
             cards.push({ id: item.word, text: item.word, type: 'word', pair: item.word });
-            // Definition card
             cards.push({ id: item.word + '_def', text: item.def, type: 'def', pair: item.word });
         });
 
-        // Shuffle
         cards.sort(() => Math.random() - 0.5);
 
         const grid = document.getElementById('match-area');
@@ -1019,17 +1152,14 @@ form@4形式，表格，(n)
         el.classList.add('selected');
 
         if (!selectedCard) {
-            // First tap
             selectedCard = el;
         } else {
-            // Second tap
             const card1 = selectedCard;
             const card2 = el;
             selectedCard = null;
             isProcessing = true;
 
             if (card1.dataset.pair === card2.dataset.pair) {
-                // Match
                 setTimeout(() => {
                     card1.classList.remove('selected');
                     card2.classList.remove('selected');
@@ -1039,14 +1169,12 @@ form@4形式，表格，(n)
                     matchedCount++;
                     document.getElementById('match-score').innerText = `Pairs: ${matchedCount}`;
                     
-                    // Check if round clear (10 cards total in grid usually, or less)
                     const remaining = document.querySelectorAll('.match-card:not(.matched)');
                     if (remaining.length === 0) {
                         document.getElementById('match-next-btn').classList.remove('hidden');
                     }
                 }, 300);
             } else {
-                // No Match
                 setTimeout(() => {
                     card1.classList.add('error');
                     card2.classList.add('error');
@@ -1058,40 +1186,6 @@ form@4形式，表格，(n)
                     isProcessing = false;
                 }, 800);
             }
-        }
-    }
-
-    // --- STUDY LIST LOGIC ---
-    function renderStudyList(searchTerm = '') {
-        const list = document.getElementById('study-list');
-        list.innerHTML = '';
-        
-        const term = searchTerm.toLowerCase();
-        const filtered = appData.filter(item => 
-            item.word.toLowerCase().includes(term) || 
-            item.def.includes(term)
-        );
-
-        // Optimization: show max 100 items if no search to prevent lag
-        const displayData = term ? filtered : filtered.slice(0, 100);
-
-        displayData.forEach(item => {
-            const li = document.createElement('li');
-            li.className = 'study-item';
-            li.innerHTML = `
-                <span class="study-word">${item.word}</span>
-                <span class="study-def">${item.def}</span>
-            `;
-            list.appendChild(li);
-        });
-
-        if (!term && filtered.length > 100) {
-            const more = document.createElement('li');
-            more.style.textAlign = 'center';
-            more.style.padding = '10px';
-            more.style.color = '#888';
-            more.innerText = `...and ${filtered.length - 100} more items. Type to search.`;
-            list.appendChild(more);
         }
     }
 
