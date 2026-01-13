@@ -811,22 +811,44 @@ form@4形式，表格，(n)
         const lines = rawDataString.split('\n');
         lines.forEach(line => {
             line = line.trim();
+            // Remove wrapping quotes if present
             if (line.startsWith('"') && line.endsWith('"')) {
                 line = line.slice(1, -1);
             }
             if (!line) return;
             
-            const match = line.match(/^(.+?)@\((.+?)\.(\d+)\)(.+)$/);
+            // UPDATED REGEX: Matches "word@lengthDefinition"
+            // Group 1: Word
+            // Group 2: Length (digits)
+            // Group 3: Definition (rest of string)
+            const match = line.match(/^(.+?)@(\d+)(.+)$/);
             
             if (match) {
+                const wordStr = match[1].trim();
+                const lenStr = match[2];
+                let defStr = match[3].trim();
+                let posStr = '';
+
+                // Extract Part of Speech from the end, e.g., "..., (n)"
+                // Matches optional comma + parenthesis + content + closing parenthesis at end of string
+                const posMatch = defStr.match(/，?\s*\((.+?)\)$/);
+                
+                if (posMatch) {
+                    posStr = posMatch[1]; // Get the text inside ()
+                    // Remove the POS tag from the definition so it doesn't show twice
+                    defStr = defStr.replace(/，?\s*\((.+?)\)$/, '').trim();
+                }
+
                 appData.push({
-                    word: match[1].trim(),
-                    pos: match[2].trim(),
-                    length: parseInt(match[3]),
-                    def: match[4].trim()
+                    word: wordStr,
+                    pos: posStr,
+                    length: parseInt(lenStr),
+                    def: defStr
                 });
             }
         });
+        
+        // Sort alphabetically
         appData.sort((a, b) => a.word.localeCompare(b.word));
     }
 
